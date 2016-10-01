@@ -3,7 +3,7 @@ require_relative 'automated_init'
 context "Stream" do
   context "Stream Name" do
     category = 'some_stream'
-    stream_name = EventSource::Controls::StreamName.example category: category
+    stream_name = Controls::StreamName.example category: category
     stream = Stream.build stream_name: stream_name
 
     test "Name" do

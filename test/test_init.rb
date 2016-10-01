@@ -13,10 +13,11 @@ ENV['LOG_OPTIONAL'] ||= 'on'
 puts RUBY_DESCRIPTION
 
 require_relative '../init.rb'
-require 'event_source/controls'
 
 require 'test_bench'; TestBench.activate
 
 require 'pp'
+
+require 'event_source/controls'
 
 include EventSource

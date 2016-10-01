@@ -1,5 +1,3 @@
-require 'controls'
-
 require 'event_source/controls/category'
 require 'event_source/controls/stream_name'
 require 'event_source/controls/stream'

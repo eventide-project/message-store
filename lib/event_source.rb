@@ -1,5 +1,6 @@
 require 'casing'
 require 'clock'
+require 'identifier/uuid'
 require 'dependency'; Dependency.activate
 require 'schema'
 require 'initializer'; Initializer.activate

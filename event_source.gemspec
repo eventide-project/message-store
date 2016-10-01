@@ -20,10 +20,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'casing'
   s.add_runtime_dependency 'schema'
   s.add_runtime_dependency 'initializer'
+  s.add_runtime_dependency 'identifier-uuid'
   s.add_runtime_dependency 'serialize'
   s.add_runtime_dependency 'settings'
   s.add_runtime_dependency 'async_invocation'
-  s.add_runtime_dependency 'controls'
 
   s.add_development_dependency 'test_bench'
 end
