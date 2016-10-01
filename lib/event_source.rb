@@ -1,14 +1,10 @@
+require 'json'
+
 require 'casing'
-require 'clock'
 require 'identifier/uuid'
-require 'dependency'; Dependency.activate
 require 'schema'
 require 'initializer'; Initializer.activate
 require 'serialize'
-require 'settings'; Settings.activate
-require 'telemetry'
-require 'telemetry/logger'
-require 'async_invocation'
 
 require 'event_source/no_stream'
 require 'event_source/stream_name'

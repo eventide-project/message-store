@@ -15,15 +15,11 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.2.3'
 
-  s.add_runtime_dependency 'telemetry'
-  s.add_runtime_dependency 'telemetry-logger'
   s.add_runtime_dependency 'casing'
   s.add_runtime_dependency 'schema'
   s.add_runtime_dependency 'initializer'
   s.add_runtime_dependency 'identifier-uuid'
   s.add_runtime_dependency 'serialize'
-  s.add_runtime_dependency 'settings'
-  s.add_runtime_dependency 'async_invocation'
 
   s.add_development_dependency 'test_bench'
 end
