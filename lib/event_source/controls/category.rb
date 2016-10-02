@@ -13,7 +13,7 @@ module EventSource
         category ||= 'Test'
 
         if randomize_category
-          category = "#{category}#{Identifier::UUID.random.gsub('-', '')}"
+          category = "#{category}#{SecureRandom.hex}"
         end
 
         category
