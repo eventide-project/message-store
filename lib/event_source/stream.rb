@@ -1,7 +1,5 @@
 module EventSource
   class Stream
-    class NameError < RuntimeError; end
-
     initializer :name
 
     def self.build(name)
