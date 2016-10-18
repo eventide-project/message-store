@@ -2,40 +2,32 @@ module EventSource
   class Stream
     class NameError < RuntimeError; end
 
-    initializer :stream_name, :category, :type
+    initializer :name
 
-    def name
-      if type == :stream
-        return stream_name
+    def self.build(name)
+      self.new(name)
+    end
+
+    def self.get_type(name)
+      subtype = name.split(':').last.split('-').first
+
+      if name.start_with?(subtype)
+        return :stream
       else
-        return category
+        return subtype.to_sym
       end
     end
 
-    def self.build(stream_name: nil, category: nil)
-      stream_name, category, type = get_name(stream_name, category)
-      new stream_name, category, type
+    def type
+      @type ||= self.class.get_type(name)
     end
 
-    def self.get_name(stream_name, category)
-      if !stream_name.nil? && !category.nil?
-        raise NameError, "Both stream stream_name and category are specified. Specify one or the other."
-      end
+    def category
+      @category ||= StreamName.category(name)
+    end
 
-      type = nil
-      if !stream_name.nil?
-        category = StreamName.category(stream_name)
-        type = :stream
-      else
-        stream_name = category
-        type = :category
-      end
-
-      if stream_name.nil? && category.nil?
-        raise NameError, "Neither stream name nor category are specified. Specify one or the other."
-      end
-
-      return stream_name, category, type
+    def category?
+      @is_category ||= !name.include?('-')
     end
   end
 end
