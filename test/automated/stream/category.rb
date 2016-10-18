@@ -4,7 +4,7 @@ context "Stream" do
   context "Category" do
     category = 'someStream'
     stream_name = Controls::Category.example category: category, randomize_category: false
-    stream = Stream.build(stream_name)
+    stream = Stream.new(stream_name)
 
     test "Type" do
       assert(stream.type == :stream)

@@ -4,7 +4,7 @@ context "Stream" do
   context "Subtype" do
     category = 'someStream:subtype'
     stream_name = Controls::StreamName.example category: category
-    stream = Stream.build(stream_name)
+    stream = Stream.new(stream_name)
 
     test "Type" do
       assert(stream.type == :subtype)

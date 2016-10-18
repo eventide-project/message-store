@@ -2,10 +2,6 @@ module EventSource
   class Stream
     initializer :name
 
-    def self.build(name)
-      self.new(name)
-    end
-
     def self.get_type(name)
       subtype = name.split(':').last.split('-').first
 
