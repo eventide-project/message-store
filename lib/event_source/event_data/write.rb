@@ -1,6 +1,7 @@
 module EventSource
-  class EventData
-    class Write < EventData
+  module EventData
+    class Write
+      include EventData
     end
   end
 end

@@ -1,7 +1,7 @@
 module EventSource
-  class EventData
-    class Read < EventData
-      include Schema::DataStructure
+  module EventData
+    class Read
+      include EventData
 
       attribute :stream_name
       attribute :stream_position

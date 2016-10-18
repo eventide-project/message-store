@@ -1,5 +1,5 @@
 module EventSource
-  class EventData
+  module EventData
     class Hash < ::Hash
       module Serializer
         def self.json
