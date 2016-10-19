@@ -13,7 +13,7 @@ module EventSource
         category ||= 'Test'
 
         if randomize_category
-          category = "#{category}#{SecureRandom.hex}"
+          category = "#{category}#{SecureRandom.hex(16)}"
         end
 
         category
