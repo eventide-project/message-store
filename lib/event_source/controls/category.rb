@@ -10,7 +10,7 @@ module EventSource
 
         randomize_category = true if randomize_category.nil?
 
-        category ||= 'Test'
+        category ||= 'test'
 
         if randomize_category
           category = "#{category}#{SecureRandom.hex(16)}"
