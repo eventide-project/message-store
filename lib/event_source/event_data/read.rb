@@ -4,7 +4,7 @@ module EventSource
       include EventData
 
       attribute :stream_name
-      attribute :stream_position
+      attribute :position
       attribute :global_position
       attribute :created_time
 
