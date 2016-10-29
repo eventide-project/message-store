@@ -37,7 +37,7 @@ module EventSource
         end
 
         def self.global_position
-          11
+          111
         end
 
         def self.recorded_time
