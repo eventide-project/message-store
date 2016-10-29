@@ -1,7 +1,7 @@
 module EventSource
   module EventData
     class Hash < ::Hash
-      module Serializer
+      module Transformer
         def self.json
           JSON
         end
@@ -15,12 +15,12 @@ module EventSource
         end
 
         module JSON
-          def self.serialize(raw_hash_data)
+          def self.write(raw_hash_data)
             json_formatted_data = Casing::Camel.(raw_hash_data)
             ::JSON.generate(json_formatted_data)
           end
 
-          def self.deserialize(text)
+          def self.read(text)
             json_formatted_data = ::JSON.parse(text, :symbolize_names => true)
             Casing::Underscore.(json_formatted_data)
           end
