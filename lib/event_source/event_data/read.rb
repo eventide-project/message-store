@@ -6,7 +6,7 @@ module EventSource
       attribute :stream_name
       attribute :position
       attribute :global_position
-      attribute :recorded_time
+      attribute :time
 
       def category
         StreamName.category(stream_name)

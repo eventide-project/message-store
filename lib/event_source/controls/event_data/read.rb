@@ -14,7 +14,7 @@ module EventSource
           event_data.metadata = metadata
           event_data.position = position
           event_data.global_position = global_position
-          event_data.recorded_time = recorded_time
+          event_data.time = time
           event_data.stream_name = stream_name
 
           event_data
@@ -40,7 +40,7 @@ module EventSource
           111
         end
 
-        def self.recorded_time
+        def self.time
           Time::Raw.example
         end
 
