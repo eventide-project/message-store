@@ -4,7 +4,7 @@ require 'casing'
 require 'identifier/uuid'
 require 'schema'
 require 'initializer'; Initializer.activate
-require 'serialize'
+require 'transform'
 
 require 'event_source/expected_version_error'
 require 'event_source/no_stream'
