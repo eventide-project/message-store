@@ -1,44 +1,53 @@
 module EventSource
-  class Read
+  module Read
+    def self.included(cls)
+      cls.class_exec do
+        include Log::Dependency
+
+        cls.extend Build
+        cls.extend Call
+        cls.extend Configure
+
+        dependency :iterator, Iterator
+
+        initializer :stream
+
+        abstract :build_get
+      end
+    end
+
     class Error < RuntimeError; end
 
-    include Log::Dependency
+    module Build
+      def build(stream_name, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil)
+        stream = Stream.new(stream_name)
 
-    initializer :stream
+        if cycle.nil?
+          cycle = Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
+        end
 
-    dependency :iterator, Iterator
+        cycle ||= Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
 
-    def self.build(stream_name, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil)
-      stream = Stream.new(stream_name)
-
-      if cycle.nil?
-        cycle = Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
-      end
-
-      cycle ||= Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
-
-      new(stream).tap do |instance|
-        get = instance.build_get(stream, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
-        Iterator.configure instance, get, position: position, cycle: cycle
+        new(stream).tap do |instance|
+          get = build_get(stream, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
+          Iterator.configure instance, get, position: position, cycle: cycle
+        end
       end
     end
 
-    ## TODO will need to be abstract
-    # def build_get(stream, batch_size: nil, precedence: nil, partition: nil, session: nil)
-    #   Get.build(stream, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
-    # end
-
-    abstract :build_get
-
-    def self.call(stream_name, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil, &action)
-      instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, partition: partition, delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds, cycle: cycle, session: session)
-      instance.(&action)
+    module Call
+      def call(stream_name, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil, &action)
+        instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, partition: partition, delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds, cycle: cycle, session: session)
+        instance.(&action)
+      end
     end
 
-    def self.configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil)
-      attr_name ||= :reader
-      instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, partition: partition, delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds, cycle: cycle, session: session)
-      receiver.public_send "#{attr_name}=", instance
+    module Configure
+      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil)
+        attr_name ||= :reader
+        instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, partition: partition, delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds, cycle: cycle, session: session)
+        receiver.public_send "#{attr_name}=", instance
+      end
     end
 
     def call(&action)
