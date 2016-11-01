@@ -1,7 +1,5 @@
 module EventSource
   class Iterator
-    class Error < RuntimeError; end
-
     include Log::Dependency
 
     dependency :cycle, Cycle
