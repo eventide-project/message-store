@@ -20,6 +20,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'initializer'
   s.add_runtime_dependency 'identifier-uuid'
   s.add_runtime_dependency 'transform'
+  s.add_runtime_dependency 'virtual'
+  s.add_runtime_dependency 'cycle'
+  s.add_runtime_dependency 'async_invocation'
 
   s.add_development_dependency 'test_bench'
 end
