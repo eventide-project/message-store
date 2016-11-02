@@ -18,5 +18,7 @@ require 'event_source/event_data/hash'
 require 'event_source/event_data/write'
 require 'event_source/event_data/read'
 
+require 'event_source/log'
+
 require 'event_source/iterator'
 require 'event_source/read'
