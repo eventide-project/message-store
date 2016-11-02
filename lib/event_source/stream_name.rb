@@ -13,11 +13,12 @@ module EventSource
     end
 
     def self.get_id(stream_name)
-      Identifier::UUID.parse(stream_name)
+      id = stream_name.partition('-')[2]
+      id.empty? ? nil : id
     end
 
     def self.category(stream_name)
-      stream_name.split('-').first
+      stream_name.split('-')[0]
     end
   end
 end

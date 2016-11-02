@@ -6,6 +6,7 @@ context "Stream ID" do
     stream_name = "someStream-#{id}"
 
     stream_id = StreamName.get_id stream_name
+
     assert(stream_id == id)
   end
 
