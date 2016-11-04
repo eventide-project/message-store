@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Stream ID" do
-  test "Is the UUID portion of a full stream name" do
+  test "Is the part of a stream name after the first dash" do
     id = Identifier::UUID.random
     stream_name = "someStream-#{id}"
 
@@ -10,7 +10,7 @@ context "Stream ID" do
     assert(stream_id == id)
   end
 
-  test "Is nil if there is no type 4 UUID in the stream name" do
+  test "Is nil if there is no ID part in the stream name" do
     stream_id = StreamName.get_id 'someStream'
     assert(stream_id.nil?)
   end
