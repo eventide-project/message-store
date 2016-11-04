@@ -30,7 +30,7 @@ module EventSource
         cycle ||= Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
 
         new(stream).tap do |instance|
-          instance.configure(stream, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
+          instance.configure(stream_name, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
           Iterator.configure instance, instance.get, position: position, cycle: cycle
         end
       end
