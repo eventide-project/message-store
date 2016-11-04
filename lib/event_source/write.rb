@@ -44,8 +44,8 @@ module EventSource
       batch = Array(event_data)
       position = write_batch(batch, stream_name, expected_version: expected_version)
 
-      logger.debug { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
-      logger.debug(tags: [:data, :event_data]) { event_data.pretty_inspect }
+      logger.info { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
+      logger.info(tags: [:data, :event_data]) { event_data.pretty_inspect }
 
       position
     end

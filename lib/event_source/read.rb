@@ -10,7 +10,7 @@ module EventSource
 
         dependency :iterator, Iterator
 
-        initializer :stream
+        initializer :stream_name
 
         attr_accessor :get
         abstract :configure
@@ -21,15 +21,13 @@ module EventSource
 
     module Build
       def build(stream_name, position: nil, batch_size: nil, precedence: nil, partition: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil)
-        stream = Stream.new(stream_name)
-
         if cycle.nil?
           cycle = Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
         end
 
         cycle ||= Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
 
-        new(stream).tap do |instance|
+        new(stream_name).tap do |instance|
           instance.configure(stream_name, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
           Iterator.configure instance, instance.get, position: position, cycle: cycle
         end
@@ -52,6 +50,8 @@ module EventSource
     end
 
     def call(&action)
+      logger.trace { "Reading (Stream Name: #{stream_name})" }
+
       if action.nil?
         error_message = "Reader must be actuated with a block"
         logger.error error_message
@@ -59,6 +59,8 @@ module EventSource
       end
 
       enumerate_event_data(&action)
+
+      logger.info { "Reading completed (Stream Name: #{stream_name})" }
 
       return AsyncInvocation::Incorrect
     end
