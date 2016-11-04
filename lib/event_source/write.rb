@@ -10,14 +10,14 @@ module EventSource
 
         dependency :put
 
-        abstract :build_put
+        abstract :configure
       end
     end
 
     module Build
       def build(partition: nil, session: nil)
         instance = new
-        instance.put = build_put(partition: partition, session: session)
+        instance.configure(partition: partition, session: session)
         instance
       end
     end

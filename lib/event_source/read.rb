@@ -12,7 +12,8 @@ module EventSource
 
         initializer :stream
 
-        abstract :build_get
+        attr_accessor :get
+        abstract :configure
       end
     end
 
@@ -29,8 +30,8 @@ module EventSource
         cycle ||= Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
 
         new(stream).tap do |instance|
-          get = build_get(stream, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
-          Iterator.configure instance, get, position: position, cycle: cycle
+          instance.configure(stream, batch_size: batch_size, precedence: precedence, partition: partition, session: session)
+          Iterator.configure instance, instance.get, position: position, cycle: cycle
         end
       end
     end
