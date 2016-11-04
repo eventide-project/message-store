@@ -54,7 +54,7 @@ module EventSource
       logger.trace { "Writing batch (Stream Name: #{stream_name}, Number of Events: #{batch.length}, Expected Version: #{expected_version.inspect})" }
 
       last_position = nil
-      put.session.connection.transaction do
+      put.session.transaction do
         batch.each do |event_data|
           last_position = write(event_data, stream_name, expected_version: expected_version)
         end
