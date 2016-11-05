@@ -53,14 +53,18 @@ module EventSource
     def write_batch(batch, stream_name, expected_version: nil)
       logger.trace { "Writing batch (Stream Name: #{stream_name}, Number of Events: #{batch.length}, Expected Version: #{expected_version.inspect})" }
 
-      # unless expected_version.nil?
-      #   expected_version =
-      # end
+      unless expected_version.nil?
+        expected_version = ExpectedVersion.canonize(expected_version)
+      end
 
       last_position = nil
       put.session.transaction do
         batch.each do |event_data|
           last_position = write(event_data, stream_name, expected_version: expected_version)
+
+          unless expected_version.nil?
+            expected_version += 1
+          end
         end
       end
 
