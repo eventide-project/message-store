@@ -10,6 +10,7 @@ require 'virtual'; Virtual.activate
 require 'async_invocation'
 
 require 'event_source/expected_version_error'
+require 'event_source/expected_version'
 require 'event_source/no_stream'
 require 'event_source/stream_name'
 require 'event_source/stream'
