@@ -6,10 +6,6 @@ module EventSource
       "#{category_name}-#{id}"
     end
 
-    def category_stream_name(category_name)
-      category_name
-    end
-
     def self.get_id(stream_name)
       id = stream_name.partition('-')[2]
       id.empty? ? nil : id
