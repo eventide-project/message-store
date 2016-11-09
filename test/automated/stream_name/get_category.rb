@@ -1,6 +1,6 @@
 require_relative '../automated_init'
 
-context "Stream Category" do
+context "Get Category" do
   category = 'someStream'
 
   test "Is the part of a stream name before the first dash" do

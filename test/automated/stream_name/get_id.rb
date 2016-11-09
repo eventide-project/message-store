@@ -1,6 +1,6 @@
 require_relative '../automated_init'
 
-context "Stream ID" do
+context "Get ID" do
   test "Is the part of a stream name after the first dash" do
     id = Identifier::UUID.random
     stream_name = "someStream-#{id}"
