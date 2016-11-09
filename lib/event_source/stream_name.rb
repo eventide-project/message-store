@@ -2,9 +2,7 @@ module EventSource
   module StreamName
     extend self
 
-    def stream_name(category_name, id=nil)
-      id ||= Identifier::UUID.random
-
+    def stream_name(category_name, id)
       "#{category_name}-#{id}"
     end
 
