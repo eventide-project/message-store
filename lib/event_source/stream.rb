@@ -17,7 +17,7 @@ module EventSource
     end
 
     def category
-      @category ||= StreamName.category(name)
+      @category ||= StreamName.get_category(name)
     end
 
     def category?

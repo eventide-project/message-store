@@ -9,7 +9,7 @@ module EventSource
       attribute :time
 
       def category
-        StreamName.category(stream_name)
+        StreamName.get_category(stream_name)
       end
     end
   end

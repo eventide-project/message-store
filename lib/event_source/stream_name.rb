@@ -11,7 +11,7 @@ module EventSource
       id.empty? ? nil : id
     end
 
-    def self.category(stream_name)
+    def self.get_category(stream_name)
       stream_name.split('-')[0]
     end
   end
