@@ -7,6 +7,10 @@ module EventSource
         attribute :type
         attribute :data
         attribute :metadata
+
+        def ===(other)
+          type == other
+        end
       end
     end
   end
