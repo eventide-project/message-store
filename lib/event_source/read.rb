@@ -66,7 +66,7 @@ module EventSource
     end
 
     def enumerate_event_data(&action)
-      logger.trace { "Reading (Stream Name: #{stream.name}, Category: #{stream.category?})" }
+      logger.trace { "Reading (Stream Name: #{stream_name})" }
 
       event_data = nil
 
@@ -78,7 +78,7 @@ module EventSource
         action.(event_data)
       end
 
-      logger.debug { "Finished reading (Stream Name: #{stream.name}, Category: #{stream.category?})" }
+      logger.debug { "Finished reading (Stream Name: #{stream_name})" }
     end
   end
 end
