@@ -6,16 +6,16 @@ module EventSource
 
     attr_accessor :position
     attr_accessor :batch
-    attr_writer :batch_position
-    attr_writer :stream_offset
 
     def batch_position
       @batch_position ||= 0
     end
+    attr_writer :batch_position
 
     def stream_offset
       @stream_offset ||= (position || 0)
     end
+    attr_writer :stream_offset
 
     initializer :get
 
