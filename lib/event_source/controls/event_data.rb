@@ -6,7 +6,7 @@ module EventSource
       end
 
       def self.data
-        { :some_attribute => RandomValue.example }
+        { :attribute => RandomValue.example }
       end
     end
   end
