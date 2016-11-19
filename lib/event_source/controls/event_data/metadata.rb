@@ -4,7 +4,7 @@ module EventSource
       module Metadata
         def self.data
           {
-            some_meta_attribute: 'some meta value'
+            meta_attribute: RandomValue.example
           }
         end
 
