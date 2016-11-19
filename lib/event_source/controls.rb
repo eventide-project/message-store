@@ -1,3 +1,6 @@
+require 'securerandom'
+
+require 'event_source/controls/random_value'
 require 'event_source/controls/time'
 require 'event_source/controls/category'
 require 'event_source/controls/stream_name'
