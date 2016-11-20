@@ -31,27 +31,27 @@ module EventSource
     end
 
     module Call
-      def call(event_data, stream_name, expected_version: nil, partition: nil, session: nil)
+      def call(event_data, stream_name, expected_version: nil, session: nil)
         instance = build(session: session)
-        instance.(event_data, stream_name, expected_version: expected_version, partition: partition)
+        instance.(event_data, stream_name, expected_version: expected_version)
       end
     end
 
-    def call(event_data, stream_name, expected_version: nil, partition: nil)
-      logger.trace { "Writing event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Partition: #{partition.inspect})" }
+    def call(event_data, stream_name, expected_version: nil)
+      logger.trace { "Writing event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
       logger.trace(tags: [:data, :event_data]) { event_data.pretty_inspect }
 
       batch = Array(event_data)
-      position = write_batch(batch, stream_name, expected_version: expected_version, partition: partition)
+      position = write_batch(batch, stream_name, expected_version: expected_version)
 
-      logger.info { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect}, Partition: #{partition.inspect})" }
+      logger.info { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
       logger.info(tags: [:data, :event_data]) { event_data.pretty_inspect }
 
       position
     end
 
-    def write_batch(batch, stream_name, expected_version: nil, partition: nil)
-      logger.trace { "Writing batch (Stream Name: #{stream_name}, Number of Events: #{batch.length}, Expected Version: #{expected_version.inspect}, Partition: #{partition.inspect})" }
+    def write_batch(batch, stream_name, expected_version: nil)
+      logger.trace { "Writing batch (Stream Name: #{stream_name}, Number of Events: #{batch.length}, Expected Version: #{expected_version.inspect})" }
 
       unless expected_version.nil?
         expected_version = ExpectedVersion.canonize(expected_version)
@@ -60,7 +60,7 @@ module EventSource
       last_position = nil
       put.session.transaction do
         batch.each do |event_data|
-          last_position = write(event_data, stream_name, expected_version: expected_version, partition: partition)
+          last_position = write(event_data, stream_name, expected_version: expected_version)
 
           unless expected_version.nil?
             expected_version += 1
@@ -68,17 +68,17 @@ module EventSource
         end
       end
 
-      logger.debug { "Wrote batch (Stream Name: #{stream_name}, Number of Events: #{batch.length}, Expected Version: #{expected_version.inspect}, Partition: #{partition.inspect})" }
+      logger.debug { "Wrote batch (Stream Name: #{stream_name}, Number of Events: #{batch.length}, Expected Version: #{expected_version.inspect})" }
 
       last_position
     end
 
-    def write(event_data, stream_name, expected_version: nil, partition: nil)
-      logger.trace { "Writing event data (Stream Name: #{stream_name}, Type: #{event_data.type}, Expected Version: #{expected_version.inspect}, Partition: #{partition.inspect})" }
+    def write(event_data, stream_name, expected_version: nil)
+      logger.trace { "Writing event data (Stream Name: #{stream_name}, Type: #{event_data.type}, Expected Version: #{expected_version.inspect})" }
       logger.trace(tags: [:data, :event_data]) { event_data.pretty_inspect }
 
-      put.(event_data, stream_name, expected_version: expected_version, partition: partition).tap do
-        logger.debug { "Wrote event data (Stream Name: #{stream_name}, Type: #{event_data.type}, Expected Version: #{expected_version.inspect}, Partition: #{partition.inspect})" }
+      put.(event_data, stream_name, expected_version: expected_version).tap do
+        logger.debug { "Wrote event data (Stream Name: #{stream_name}, Type: #{event_data.type}, Expected Version: #{expected_version.inspect})" }
         logger.debug(tags: [:data, :event_data]) { event_data.pretty_inspect }
       end
     end
