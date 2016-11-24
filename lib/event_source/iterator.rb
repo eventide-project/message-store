@@ -17,18 +17,18 @@ module EventSource
     end
     attr_writer :stream_offset
 
-    initializer :get
+    initializer :get, :stream_name
 
-    def self.build(get, position: nil, cycle: nil)
-      new(get).tap do |instance|
+    def self.build(get, stream_name, position: nil, cycle: nil)
+      new(get, stream_name).tap do |instance|
         instance.position = position
         Cycle.configure instance, cycle: cycle
       end
     end
 
-    def self.configure(receiver, get, attr_name: nil, position: nil, cycle: nil)
+    def self.configure(receiver, get, stream_name, attr_name: nil, position: nil, cycle: nil)
       attr_name ||= :iterator
-      instance = build(get, position: position, cycle: cycle)
+      instance = build(get, stream_name, position: position, cycle: cycle)
       receiver.public_send "#{attr_name}=", instance
     end
 
@@ -84,7 +84,7 @@ module EventSource
 
       batch = nil
       cycle.() do
-        batch = get.(position: stream_offset)
+        batch = get.(stream_name, position: stream_offset)
       end
 
       logger.debug { "Finished getting batch (Count: #{batch.length})" }

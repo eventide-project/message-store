@@ -21,15 +21,11 @@ module EventSource
 
     module Build
       def build(stream_name, position: nil, batch_size: nil, precedence: nil, delay_milliseconds: nil, timeout_milliseconds: nil, cycle: nil, session: nil)
-        if cycle.nil?
-          cycle = Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
-        end
-
         cycle ||= Cycle.build(delay_milliseconds: delay_milliseconds, timeout_milliseconds: timeout_milliseconds)
 
         new(stream_name).tap do |instance|
-          instance.configure(stream_name, batch_size: batch_size, precedence: precedence, session: session)
-          Iterator.configure instance, instance.get, position: position, cycle: cycle
+          instance.configure(batch_size: batch_size, precedence: precedence, session: session)
+          Iterator.configure instance, instance.get, stream_name, position: position, cycle: cycle
         end
       end
     end
@@ -66,7 +62,7 @@ module EventSource
     end
 
     def enumerate_event_data(&action)
-      logger.trace { "Reading (Stream Name: #{stream_name})" }
+      logger.trace { "Enumerating (Stream Name: #{stream_name})" }
 
       event_data = nil
 
@@ -78,7 +74,7 @@ module EventSource
         action.(event_data)
       end
 
-      logger.debug { "Finished reading (Stream Name: #{stream_name})" }
+      logger.debug { "Enumerated (Stream Name: #{stream_name})" }
     end
   end
 end
