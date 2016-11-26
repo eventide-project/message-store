@@ -4,8 +4,18 @@ module EventSource
       module Read
         def self.example(type: nil, data: nil, metadata: nil)
           type ||= self.type
-          data ||= self.data
-          metadata ||= self.metadata
+
+          if data == :none
+            data = nil
+          else
+            data ||= self.metadata
+          end
+
+          if metadata == :none
+            metadata = nil
+          else
+            metadata ||= self.metadata
+          end
 
           event_data = EventSource::EventData::Read.build
 
