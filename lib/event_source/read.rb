@@ -39,7 +39,7 @@ module EventSource
 
     module Configure
       def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, precedence: nil, cycle_delay_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
-        attr_name ||= :reader
+        attr_name ||= :read
         instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, cycle_delay_milliseconds: cycle_delay_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
         receiver.public_send "#{attr_name}=", instance
       end
