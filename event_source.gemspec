@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-event_source'
-  s.version = '0.16.0.0'
+  s.version = '0.16.0.1'
   s.summary = 'Common primitives for event source clients'
   s.description = ' '
 
@@ -24,5 +24,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'evt-cycle'
   s.add_runtime_dependency 'evt-async_invocation'
 
-  s.add_development_dependency 'ntl-test_bench'
+  s.add_development_dependency 'test_bench'
 end
