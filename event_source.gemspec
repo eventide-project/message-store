@@ -15,14 +15,14 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.3.3'
 
-  s.add_runtime_dependency 'casing'
-  s.add_runtime_dependency 'schema'
-  s.add_runtime_dependency 'initializer'
-  s.add_runtime_dependency 'identifier-uuid'
-  s.add_runtime_dependency 'transform'
-  s.add_runtime_dependency 'virtual'
-  s.add_runtime_dependency 'cycle'
-  s.add_runtime_dependency 'async_invocation'
+  s.add_runtime_dependency 'evt-casing'
+  s.add_runtime_dependency 'evt-schema'
+  s.add_runtime_dependency 'evt-initializer'
+  s.add_runtime_dependency 'evt-identifier-uuid'
+  s.add_runtime_dependency 'evt-transform'
+  s.add_runtime_dependency 'evt-virtual'
+  s.add_runtime_dependency 'evt-cycle'
+  s.add_runtime_dependency 'evt-async_invocation'
 
-  s.add_development_dependency 'test_bench'
+  s.add_development_dependency 'ntl-test_bench'
 end
