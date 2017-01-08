@@ -8,7 +8,7 @@ module EventSource
           if data == :none
             data = nil
           else
-            data ||= self.metadata
+            data ||= self.data
           end
 
           if metadata == :none
