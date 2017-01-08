@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-event_source'
-  s.version = '0.16.0.1'
+  s.version = '0.16.0.2'
   s.summary = 'Common primitives for event source clients'
   s.description = ' '
 
