@@ -1,6 +1,10 @@
 module EventSource
   module Controls
     module EventData
+      def self.id
+        ID::Random.example
+      end
+
       def self.type
         'SomeType'
       end
