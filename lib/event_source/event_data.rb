@@ -4,7 +4,8 @@ module EventSource
       cls.class_exec do
         include Schema::DataStructure
 
-        attribute :type
+        attribute :id, String
+        attribute :type, String
         attribute :data
         attribute :metadata
 
