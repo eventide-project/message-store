@@ -20,8 +20,8 @@ module EventSource
     class Error < RuntimeError; end
 
     module Build
-      def build(stream_name, position: nil, batch_size: nil, precedence: nil, cycle_delay_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
-        cycle ||= Cycle.build(delay_milliseconds: cycle_delay_milliseconds, timeout_milliseconds: cycle_timeout_milliseconds)
+      def build(stream_name, position: nil, batch_size: nil, precedence: nil, cycle_maximum_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
+        cycle ||= Cycle.build(maximum_milliseconds: cycle_maximum_milliseconds, timeout_milliseconds: cycle_timeout_milliseconds)
 
         new(stream_name).tap do |instance|
           instance.configure(batch_size: batch_size, precedence: precedence, session: session)
@@ -31,16 +31,16 @@ module EventSource
     end
 
     module Call
-      def call(stream_name, position: nil, batch_size: nil, precedence: nil, cycle_delay_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil, &action)
-        instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, cycle_delay_milliseconds: cycle_delay_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
+      def call(stream_name, position: nil, batch_size: nil, precedence: nil, cycle_maximum_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil, &action)
+        instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, cycle_maximum_milliseconds: cycle_maximum_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
         instance.(&action)
       end
     end
 
     module Configure
-      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, precedence: nil, cycle_delay_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
+      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, precedence: nil, cycle_maximum_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
         attr_name ||= :read
-        instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, cycle_delay_milliseconds: cycle_delay_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
+        instance = build(stream_name, position: position, batch_size: batch_size, precedence: precedence, cycle_maximum_milliseconds: cycle_maximum_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
         receiver.public_send "#{attr_name}=", instance
       end
     end
