@@ -12,6 +12,12 @@ module EventSource
       end
     end
 
+    def self.canonize(stream)
+      return stream if stream.is_a? self
+
+      new stream
+    end
+
     def type
       @type ||= self.class.get_type(name)
     end
