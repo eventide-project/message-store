@@ -3,10 +3,10 @@ module EventSource
     class Read
       include EventData
 
-      attribute :stream_name
-      attribute :position
-      attribute :global_position
-      attribute :time
+      attribute :stream_name, String
+      attribute :position, Fixnum
+      attribute :global_position, Fixnum
+      attribute :time, Time
 
       def category
         StreamName.get_category(stream_name)
