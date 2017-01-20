@@ -23,5 +23,9 @@ module EventSource
     def category?
       @is_category ||= !name.include?('-')
     end
+
+    def ==(stream)
+      name == stream.name
+    end
   end
 end
