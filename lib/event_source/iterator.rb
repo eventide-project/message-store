@@ -4,7 +4,7 @@ module EventSource
 
     dependency :cycle, Cycle
 
-    attr_accessor :position
+    attr_accessor :starting_position
     attr_accessor :batch
 
     def batch_position
@@ -12,16 +12,16 @@ module EventSource
     end
     attr_writer :batch_position
 
-    def stream_offset
-      @stream_offset ||= (position || 0)
+    def current_position
+      @current_position ||= (starting_position || 0)
     end
-    attr_writer :stream_offset
+    attr_writer :current_position
 
     initializer :get, :stream_name
 
     def self.build(get, stream_name, position: nil, cycle: nil)
       new(get, stream_name).tap do |instance|
-        instance.position = position
+        instance.starting_position = position
         Cycle.configure instance, cycle: cycle
       end
     end
@@ -33,13 +33,13 @@ module EventSource
     end
 
     def next
-      logger.trace { "Getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position}, Stream Offset: #{stream_offset})" }
+      logger.trace { "Getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position}, Stream Offset: #{current_position})" }
 
       resupply(batch)
 
       event_data = batch[batch_position]
 
-      logger.debug { "Finished getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position}, Stream Offset: #{stream_offset})" }
+      logger.debug { "Finished getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position}, Stream Offset: #{current_position})" }
       logger.debug(tags: [:data, :event_data]) { "Event Data: #{event_data.pretty_inspect}" }
 
       advance_positions
@@ -84,7 +84,7 @@ module EventSource
 
       batch = nil
       cycle.() do
-        batch = get.(stream_name, position: stream_offset)
+        batch = get.(stream_name, position: current_position)
       end
 
       logger.debug { "Finished getting batch (Count: #{batch.length})" }
@@ -93,10 +93,10 @@ module EventSource
     end
 
     def advance_positions
-      logger.trace { "Advancing positions (Batch Position: #{batch_position}, Stream Offset: #{stream_offset})" }
+      logger.trace { "Advancing positions (Batch Position: #{batch_position}, Stream Offset: #{current_position})" }
       self.batch_position += 1
-      self.stream_offset += 1
-      logger.debug { "Advanced positions (Batch Position: #{batch_position}, Stream Offset: #{stream_offset})" }
+      self.current_position += 1
+      logger.debug { "Advanced positions (Batch Position: #{batch_position}, Stream Offset: #{current_position})" }
     end
   end
 end
