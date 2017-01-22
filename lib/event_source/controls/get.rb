@@ -56,7 +56,9 @@ module EventSource
             items.sort! { |x, y| y.position <=> x.position }
           end
 
-          index = (items.index { |i| i.position == position }) || 0
+          index = (items.index { |i| i.position == position })
+
+          return [] if index.nil?
 
           range = index..(index + batch_size - 1)
 
