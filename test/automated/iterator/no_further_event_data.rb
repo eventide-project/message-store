@@ -5,11 +5,12 @@ context "Iterator" do
     context "No further event data" do
       Iterator.precedences.each do |precedence|
         context "#{precedence}" do
-          get = Controls::Get.example(batch_size: 1, count: 2, precedence: precedence)
+          count = 3
+          get = Controls::Get.example(batch_size: 2, count: count, precedence: precedence)
 
           iterator = Iterator.build(get, 'some_stream')
 
-          2.times { iterator.next }
+          count.times { iterator.next }
 
           last = iterator.next
 
