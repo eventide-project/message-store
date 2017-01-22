@@ -98,5 +98,12 @@ module EventSource
       self.current_position += 1
       logger.debug { "Advanced positions (Batch Position: #{batch_position}, Stream Offset: #{current_position})" }
     end
+
+    def self.precedences
+      [
+        :asc,
+        :desc
+      ]
+    end
   end
 end
