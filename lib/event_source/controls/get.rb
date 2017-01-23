@@ -23,6 +23,8 @@ module EventSource
       end
 
       class Example
+        include Log::Dependency
+
         initializer na(:batch_size), na(:precedence)
 
         def batch_size
@@ -46,9 +48,11 @@ module EventSource
             if precedence == :asc
               position = 0
             else
-              position = items.length
+              position = items.length - 1
             end
           end
+
+          logger.trace(tag: :control) { "Getting (Position: #{position}, Batch Size: #{batch_size}, Precedence: #{precedence}, Stream Name: #{stream_name.inspect})" }
 
           items = self.items
 
@@ -56,13 +60,24 @@ module EventSource
             items.sort! { |x, y| y.position <=> x.position }
           end
 
+          # logger.debug(tags: [:control, :data]) { "Items: \n#{items.pretty_inspect}" }
+          logger.debug(tag: :control) { "Position: #{position.inspect}" }
+          logger.debug(tag: :control) { "Batch Size: #{batch_size.inspect}" }
+
           index = (items.index { |i| i.position == position })
+          logger.debug(tag: :control) { "Index: #{index.inspect}" }
 
-          return [] if index.nil?
+          if index.nil?
+            items = []
+          else
+            range = index..(index + batch_size - 1)
+            logger.debug(tag: :control) { "Range: #{range.pretty_inspect}" }
 
-          range = index..(index + batch_size - 1)
+            items = items[range]
+          end
 
-          items = items[range]
+          logger.info(tags: [:control, :data]) { "Got: \n#{items.pretty_inspect}" }
+          logger.info(tag: :control) { "Finished getting (Position: #{position}, Precedence: #{precedence}, Stream Name: #{stream_name.inspect})" }
 
           items
         end

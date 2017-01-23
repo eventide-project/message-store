@@ -12,6 +12,10 @@ module EventSource
     end
     attr_writer :batch_position
 
+    def precedence
+      get.precedence
+    end
+
     initializer :get, :stream_name
 
     def self.build(get, stream_name, position: nil, cycle: nil)
@@ -28,14 +32,14 @@ module EventSource
     end
 
     def next
-      logger.trace { "Getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position})" }
+      logger.trace { "Getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position}, Starting Position: #{starting_position.inspect})" }
 
       resupply(batch)
 
       event_data = batch[batch_position]
 
-      logger.debug { "Finished getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position})" }
-      logger.debug(tags: [:data, :event_data]) { "Event Data: #{event_data.pretty_inspect}" }
+      logger.debug(tags: [:data, :event_data]) { "Next event data: #{event_data.pretty_inspect}" }
+      logger.debug { "Done getting next event data (Batch Length: #{batch.nil? ? '<none>' : batch.length}, Batch Position: #{batch_position}, Starting Position: #{starting_position.inspect})" }
 
       advance_batch_position
 
@@ -43,7 +47,9 @@ module EventSource
     end
 
     def advance_batch_position
+      logger.trace { "Advancing batch position (Batch Position: #{batch_position})" }
       self.batch_position += 1
+      logger.debug { "Advanced batch position (Batch Position: #{batch_position})" }
     end
 
     def resupply(batch)
@@ -61,34 +67,46 @@ module EventSource
         batch = get_batch
 
         reset(batch)
-      else
-        logger.debug { "Current batch not depleted (#{batch_log_text}, Batch Position: #{batch_position})" }
-      end
 
-      logger.debug { "Finished resupplying batch" }
+        logger.debug { "Batch resupplied" }
+      else
+        logger.debug { "Batch not resupplied. Current batch not depleted (#{batch_log_text}, Batch Position: #{batch_position})" }
+      end
     end
 
     def get_batch
-      logger.trace "Getting batch"
+      position = next_batch_starting_position
+
+      logger.trace "Getting batch (Position: #{position.inspect})"
 
       batch = nil
       cycle.() do
-        batch = get.(stream_name, position: next_batch_starting_position)
+        batch = get.(stream_name, position: position)
       end
 
-      logger.debug { "Finished getting batch (Count: #{batch.length})" }
+      logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
 
       batch
     end
 
     def next_batch_starting_position
-      return 0 if batch.nil?
+      log_msg = "Next starting position"
 
-      if batch_position == batch.length
-        return last_position + 1
+      if batch.nil?
+        logger.debug { "Batch is nil (Next batch starting position: nil)" }
+        return nil
       end
 
-      current_position + 1
+      ## TODO accounts for direction?
+      if batch_position == batch.length
+        next_position = last_position + (1 * (precedence == :asc ? 1 : -1))
+        logger.debug { "End of batch (Next starting position: #{next_position})" }
+        return next_position
+      end
+
+      next_position = current_position + (1 * (precedence == :asc ? 1 : -1))
+      logger.debug { "Batch in processes (Next batch starting position: #{next_position})" }
+      next_position
     end
 
     def current_position
@@ -105,9 +123,9 @@ module EventSource
       self.batch = batch
       self.batch_position = 0
 
-      logger.debug { "Reset batch" }
-      logger.debug(tags: [:data, :batch]) { "Batch: #{batch.pretty_inspect}" }
-      logger.debug(tags: [:data, :batch]) { "Batch Position: #{batch_position.inspect}" }
+      logger.debug(tags: [:data, :batch]) { "Batch set to: \n#{batch.pretty_inspect}" }
+      logger.debug(tags: [:data, :batch]) { "Batch position set to: #{batch_position.inspect}" }
+      logger.debug { "Done resetting batch" }
     end
 
     def self.precedences

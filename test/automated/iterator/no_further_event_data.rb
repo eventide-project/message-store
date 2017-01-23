@@ -4,6 +4,9 @@ context "Iterator" do
   context "Next" do
     context "No further event data" do
       Iterator.precedences.each do |precedence|
+
+        # precedence = :asc
+
         context "#{precedence}" do
           count = 3
           get = Controls::Get.example(batch_size: 2, count: count, precedence: precedence)
