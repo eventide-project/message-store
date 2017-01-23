@@ -79,9 +79,13 @@ module EventSource
 
       logger.trace "Getting batch (Position: #{position.inspect})"
 
-      batch = nil
-      cycle.() do
-        batch = get.(stream_name, position: position)
+      if position.nil? || position >= 0
+        batch = nil
+        cycle.() do
+          batch = get.(stream_name, position: position)
+        end
+      else
+        batch = []
       end
 
       logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
@@ -90,27 +94,16 @@ module EventSource
     end
 
     def next_batch_starting_position
-      log_msg = "Next starting position"
-
       if batch.nil?
         logger.debug { "Batch is nil (Next batch starting position: nil)" }
         return nil
       end
 
-      ## TODO accounts for direction?
-      if batch_position == batch.length
-        next_position = last_position + (1 * (precedence == :asc ? 1 : -1))
-        logger.debug { "End of batch (Next starting position: #{next_position})" }
-        return next_position
-      end
+      previous_position = last_position
+      next_position = previous_position + (1 * (precedence == :asc ? 1 : -1))
+      logger.debug { "End of batch (Next starting position: #{next_position}, Previous Position: #{previous_position})" }
 
-      next_position = current_position + (1 * (precedence == :asc ? 1 : -1))
-      logger.debug { "Batch in processes (Next batch starting position: #{next_position})" }
       next_position
-    end
-
-    def current_position
-      batch[batch_position].position
     end
 
     def last_position
