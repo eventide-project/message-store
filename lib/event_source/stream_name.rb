@@ -1,6 +1,10 @@
 module EventSource
   module StreamName
-    def self.stream_name(category_name, id)
+    def self.stream_name(category_name, id, type=nil)
+      unless type.nil?
+        category_name = "#{category_name}:#{type}"
+      end
+
       "#{category_name}-#{id}"
     end
 
@@ -14,12 +18,12 @@ module EventSource
     end
 
     def self.get_type(name)
-      subtype = name.split(':').last.split('-').first
+      type = name.split(':').last.split('-').first
 
-      if name.start_with?(subtype)
+      if name.start_with?(type)
         return :stream
       else
-        return subtype.to_sym
+        return type.to_sym
       end
     end
   end
