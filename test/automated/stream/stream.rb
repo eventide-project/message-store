@@ -3,8 +3,12 @@ require_relative '../automated_init'
 context "Stream" do
   context "Stream" do
     category = 'someStream'
-    stream_name = Controls::StreamName.example category: category
+    stream_name = Controls::StreamName.example(id: 'some_id', category: category)
     stream = Stream.new(stream_name)
+
+    test "ID" do
+      assert(stream.id == 'some_id')
+    end
 
     test "Type" do
       assert(stream.type == :stream)

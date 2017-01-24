@@ -8,6 +8,10 @@ module EventSource
       new stream
     end
 
+    def id
+      @id ||= StreamName.get_id(name)
+    end
+
     def type
       @type ||= StreamName.get_type(name)
     end
