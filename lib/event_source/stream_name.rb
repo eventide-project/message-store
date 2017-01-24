@@ -1,8 +1,6 @@
 module EventSource
   module StreamName
-    extend self
-
-    def stream_name(category_name, id)
+    def self.stream_name(category_name, id)
       "#{category_name}-#{id}"
     end
 
