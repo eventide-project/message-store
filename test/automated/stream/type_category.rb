@@ -1,17 +1,20 @@
 require_relative '../automated_init'
 
 context "Stream" do
-  context "Subtype" do
-    category = 'someStream:subtype'
-    stream_name = Controls::StreamName.example category: category
+  context "Subtype Category" do
+    stream_name = 'someStream:someType'
     stream = Stream.new(stream_name)
 
+    test "ID" do
+      assert(stream.id.nil?)
+    end
+
     test "Type" do
-      assert(stream.type == :subtype)
+      assert(stream.type == 'someType')
     end
 
     test "Is a Category Stream" do
-      refute(stream.category?)
+      assert(stream.category?)
     end
 
     test "Name" do
@@ -19,7 +22,7 @@ context "Stream" do
     end
 
     test "Category" do
-      assert(stream.category == category)
+      assert(stream.category == stream_name)
     end
   end
 end

@@ -20,11 +20,9 @@ module EventSource
     def self.get_type(name)
       type = name.split(':').last.split('-').first
 
-      if name.start_with?(type)
-        return :stream
-      else
-        return type.to_sym
-      end
+      return nil if name.start_with?(type)
+
+      type
     end
   end
 end

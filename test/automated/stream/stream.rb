@@ -11,7 +11,7 @@ context "Stream" do
     end
 
     test "Type" do
-      assert(stream.type == :stream)
+      assert(stream.type.nil?)
     end
 
     test "Is a Category Stream" do

@@ -10,10 +10,10 @@ context "Stream Name" do
   end
 
   context do
-    stream_name = StreamName.stream_name('someCategory', 'some_id', 'some_type')
+    stream_name = StreamName.stream_name('someCategory', 'some_id', 'someType')
 
     test "Optionally includes a type" do
-      assert(stream_name == 'someCategory:some_type-some_id')
+      assert(stream_name == 'someCategory:someType-some_id')
     end
   end
 end
