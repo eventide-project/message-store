@@ -20,27 +20,25 @@ module EventSource
     class Error < RuntimeError; end
 
     module Build
-      def build(stream_name, position: nil, batch_size: nil, cycle_maximum_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
-        cycle ||= Cycle.build(maximum_milliseconds: cycle_maximum_milliseconds, timeout_milliseconds: cycle_timeout_milliseconds)
-
+      def build(stream_name, position: nil, batch_size: nil, session: nil)
         new(stream_name).tap do |instance|
           instance.configure(batch_size: batch_size, session: session)
-          Iterator.configure instance, instance.get, stream_name, position: position, cycle: cycle
+          Iterator.configure instance, instance.get, stream_name, position: position
         end
       end
     end
 
     module Call
-      def call(stream_name, position: nil, batch_size: nil, cycle_maximum_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil, &action)
-        instance = build(stream_name, position: position, batch_size: batch_size, cycle_maximum_milliseconds: cycle_maximum_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
+      def call(stream_name, position: nil, batch_size: nil, session: nil, &action)
+        instance = build(stream_name, position: position, batch_size: batch_size, session: session)
         instance.(&action)
       end
     end
 
     module Configure
-      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, cycle_maximum_milliseconds: nil, cycle_timeout_milliseconds: nil, cycle: nil, session: nil)
+      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, session: nil)
         attr_name ||= :read
-        instance = build(stream_name, position: position, batch_size: batch_size, cycle_maximum_milliseconds: cycle_maximum_milliseconds, cycle_timeout_milliseconds: cycle_timeout_milliseconds, cycle: cycle, session: session)
+        instance = build(stream_name, position: position, batch_size: batch_size, session: session)
         receiver.public_send "#{attr_name}=", instance
       end
     end
