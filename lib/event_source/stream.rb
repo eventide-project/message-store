@@ -2,10 +2,9 @@ module EventSource
   class Stream
     initializer :name
 
-    def self.canonize(stream)
-      return stream if stream.is_a? self
-
-      new stream
+    def self.build(subject)
+      return subject if subject.is_a? self
+      new(subject)
     end
 
     def id
