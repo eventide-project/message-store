@@ -4,8 +4,8 @@ module EventSource
       include EventData
 
       attribute :stream_name, String
-      attribute :position, Fixnum
-      attribute :global_position, Fixnum
+      attribute :position, Integer
+      attribute :global_position, Integer
       attribute :time, Time
 
       def category
