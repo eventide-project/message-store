@@ -12,12 +12,12 @@ module EventSource
       @id ||= StreamName.get_id(name)
     end
 
-    def type
-      @type ||= StreamName.get_type(name)
-    end
-
     def category
       @category ||= StreamName.get_category(name)
+    end
+
+    def type
+      @type ||= StreamName.get_type(name)
     end
 
     def category?

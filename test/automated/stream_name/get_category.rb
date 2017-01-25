@@ -1,19 +1,26 @@
 require_relative '../automated_init'
 
-context "Get Category" do
-  category = 'someStream'
+context "Stream Name" do
+  context "Category" do
+    category = 'someStream'
 
-  test "Is the part of a stream name before the first dash" do
-    id = Identifier::UUID.random
-    stream_name = "#{category}-#{id}"
+    context "Stream Name Contains an ID" do
+      id = Identifier::UUID.random
+      stream_name = "#{category}-#{id}"
 
-    stream_category = StreamName.get_category(stream_name)
+      stream_category = StreamName.get_category(stream_name)
 
-    assert(stream_category == category)
-  end
+      test "Category name is the part of the stream name before the first dash" do
+        assert(stream_category == category)
+      end
+    end
 
-  test "Is the category name if there is no ID part in the stream name" do
-    stream_category = StreamName.get_category(category)
-    assert(stream_category == category)
+    context "Stream Name Contains no ID" do
+      stream_category = StreamName.get_category(category)
+
+      test "Category name is the stream name" do
+        assert(stream_category == category)
+      end
+    end
   end
 end
