@@ -2,8 +2,6 @@ module EventSource
   class Iterator
     include Log::Dependency
 
-    dependency :cycle, Cycle
-
     attr_accessor :position
     attr_accessor :batch
 
@@ -19,16 +17,15 @@ module EventSource
 
     initializer :get, :stream_name
 
-    def self.build(get, stream_name, position: nil, cycle: nil)
+    def self.build(get, stream_name, position: nil)
       new(get, stream_name).tap do |instance|
         instance.position = position
-        Cycle.configure instance, cycle: cycle
       end
     end
 
-    def self.configure(receiver, get, stream_name, attr_name: nil, position: nil, cycle: nil)
+    def self.configure(receiver, get, stream_name, attr_name: nil, position: nil)
       attr_name ||= :iterator
-      instance = build(get, stream_name, position: position, cycle: cycle)
+      instance = build(get, stream_name, position: position)
       receiver.public_send "#{attr_name}=", instance
     end
 
@@ -82,10 +79,7 @@ module EventSource
     def get_batch
       logger.trace "Getting batch"
 
-      batch = nil
-      cycle.() do
-        batch = get.(stream_name, position: stream_offset)
-      end
+      batch = get.(stream_name, position: stream_offset)
 
       logger.debug { "Finished getting batch (Count: #{batch.length})" }
 
