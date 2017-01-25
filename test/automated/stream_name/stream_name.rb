@@ -1,18 +1,34 @@
 require_relative '../automated_init'
 
 context "Stream Name" do
-  context do
+  context "Category" do
+    stream_name = StreamName.stream_name('someCategory')
+
+    test "Stream name is the category" do
+      assert(stream_name == 'someCategory')
+    end
+  end
+
+  context "Category and ID" do
     stream_name = StreamName.stream_name('someCategory', 'some_id')
 
-    test "Composes the stream name from the category name and an ID" do
+    test "Stream name is the category and the ID" do
       assert(stream_name == 'someCategory-some_id')
     end
   end
 
-  context do
+  context "Category and Type" do
+    stream_name = StreamName.stream_name('someCategory', nil, 'someType')
+
+    test "Stream name is the category and the Type" do
+      assert(stream_name == 'someCategory:someType')
+    end
+  end
+
+  context "Category, Type and ID" do
     stream_name = StreamName.stream_name('someCategory', 'some_id', 'someType')
 
-    test "Optionally includes a type" do
+    test "Stream name is the category, type and ID" do
       assert(stream_name == 'someCategory:someType-some_id')
     end
   end

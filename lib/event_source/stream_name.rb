@@ -1,11 +1,11 @@
 module EventSource
   module StreamName
-    def self.stream_name(category_name, id, type=nil)
-      unless type.nil?
-        category_name = "#{category_name}:#{type}"
-      end
+    def self.stream_name(category_name, id=nil, type=nil)
+      stream_name = category_name
+      stream_name = "#{stream_name}:#{type}" unless type.nil?
+      stream_name = "#{stream_name}-#{id}" unless id.nil?
 
-      "#{category_name}-#{id}"
+      stream_name
     end
 
     def self.get_id(stream_name)
