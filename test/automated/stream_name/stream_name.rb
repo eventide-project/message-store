@@ -18,7 +18,7 @@ context "Stream Name" do
   end
 
   context "Category and Type" do
-    stream_name = StreamName.stream_name('someCategory', nil, 'someType')
+    stream_name = StreamName.stream_name('someCategory', type: 'someType')
 
     test "Stream name is the category and the Type" do
       assert(stream_name == 'someCategory:someType')
@@ -26,7 +26,7 @@ context "Stream Name" do
   end
 
   context "Category, Type and ID" do
-    stream_name = StreamName.stream_name('someCategory', 'some_id', 'someType')
+    stream_name = StreamName.stream_name('someCategory', 'some_id', type: 'someType')
 
     test "Stream name is the category, type and ID" do
       assert(stream_name == 'someCategory:someType-some_id')
