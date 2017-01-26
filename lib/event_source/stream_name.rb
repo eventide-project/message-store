@@ -17,6 +17,10 @@ module EventSource
       stream_name.split('-')[0]
     end
 
+    def self.category?(stream_name)
+      !stream_name.include?('-')
+    end
+
     def self.get_type(name)
       type = name.split(':').last.split('-').first
 
