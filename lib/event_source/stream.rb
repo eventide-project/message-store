@@ -2,28 +2,21 @@ module EventSource
   class Stream
     initializer :name
 
-    def self.get_type(name)
-      subtype = name.split(':').last.split('-').first
-
-      if name.start_with?(subtype)
-        return :stream
-      else
-        return subtype.to_sym
-      end
+    def self.build(subject)
+      return subject if subject.is_a? self
+      new(subject)
     end
 
-    def self.canonize(stream)
-      return stream if stream.is_a? self
-
-      new stream
-    end
-
-    def type
-      @type ||= self.class.get_type(name)
+    def id
+      @id ||= StreamName.get_id(name)
     end
 
     def category
       @category ||= StreamName.get_category(name)
+    end
+
+    def type
+      @type ||= StreamName.get_type(name)
     end
 
     def category?

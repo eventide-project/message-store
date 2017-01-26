@@ -6,7 +6,6 @@ require 'identifier/uuid'
 require 'schema'
 require 'initializer'; Initializer.activate
 require 'transform'
-require 'cycle'
 require 'virtual'; Virtual.activate
 require 'async_invocation'
 

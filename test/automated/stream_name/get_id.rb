@@ -5,13 +5,13 @@ context "Get ID" do
     id = Identifier::UUID.random
     stream_name = "someStream-#{id}"
 
-    stream_id = StreamName.get_id stream_name
+    stream_id = StreamName.get_id(stream_name)
 
     assert(stream_id == id)
   end
 
   test "Is nil if there is no ID part in the stream name" do
-    stream_id = StreamName.get_id 'someStream'
+    stream_id = StreamName.get_id('someStream')
     assert(stream_id.nil?)
   end
 end

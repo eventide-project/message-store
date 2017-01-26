@@ -2,8 +2,6 @@ module EventSource
   class Iterator
     include Log::Dependency
 
-    dependency :cycle, Cycle
-
     attr_accessor :starting_position
     attr_accessor :batch
 
@@ -12,22 +10,17 @@ module EventSource
     end
     attr_writer :batch_position
 
-    def precedence
-      get.precedence
-    end
-
     initializer :get, :stream_name
 
-    def self.build(get, stream_name, position: nil, cycle: nil)
+    def self.build(get, stream_name, position: nil)
       new(get, stream_name).tap do |instance|
         instance.starting_position = position
-        Cycle.configure instance, cycle: cycle
       end
     end
 
-    def self.configure(receiver, get, stream_name, attr_name: nil, position: nil, cycle: nil)
+    def self.configure(receiver, get, stream_name, attr_name: nil, position: nil)
       attr_name ||= :iterator
-      instance = build(get, stream_name, position: position, cycle: cycle)
+      instance = build(get, stream_name, position: position)
       receiver.public_send "#{attr_name}=", instance
     end
 
@@ -79,13 +72,9 @@ module EventSource
 
       logger.trace "Getting batch (Position: #{position.inspect})"
 
+      batch = []
       if position.nil? || position >= 0
-        batch = nil
-        cycle.() do
-          batch = get.(stream_name, position: position)
-        end
-      else
-        batch = []
+        batch = get.(stream_name, position: position)
       end
 
       logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
@@ -119,13 +108,6 @@ module EventSource
       logger.debug(tags: [:data, :batch]) { "Batch set to: \n#{batch.pretty_inspect}" }
       logger.debug(tags: [:data, :batch]) { "Batch position set to: #{batch_position.inspect}" }
       logger.debug { "Done resetting batch" }
-    end
-
-    def self.precedences
-      [
-        :asc,
-        :desc
-      ]
     end
   end
 end
