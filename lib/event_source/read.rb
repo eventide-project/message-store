@@ -9,10 +9,10 @@ module EventSource
         cls.extend Configure
 
         dependency :iterator, Iterator
+        dependency :get, Get
 
         initializer :stream_name
 
-        attr_accessor :get
         abstract :configure
       end
     end
