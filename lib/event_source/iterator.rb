@@ -65,10 +65,6 @@ module EventSource
       false
     end
 
-    def last_position
-      batch.last.position
-    end
-
     def resupply
       logger.trace { "Resupplying batch (Current Batch Length: #{(batch &.length).inspect})" }
 
@@ -104,6 +100,14 @@ module EventSource
       logger.debug { "End of batch (Next starting position: #{next_position}, Previous Position: #{previous_position})" }
 
       next_position
+    end
+
+    def last_position
+      unless EventSource::StreamName.category?(stream_name)
+        batch.last.position
+      else
+        batch.last.global_position
+      end
     end
 
     def reset(batch)

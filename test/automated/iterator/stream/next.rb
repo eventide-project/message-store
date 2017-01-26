@@ -1,11 +1,11 @@
-require_relative '../automated_init'
+require_relative '../../automated_init'
 
 context "Iterator" do
   context "Next" do
     count = 3
     get = Controls::Get.example(batch_size: 2, count: count)
 
-    iterator = Iterator.build(get, 'some_stream', position: 1)
+    iterator = Iterator.build(get, 'some_stream-some_id')
 
     batch = []
 
@@ -15,7 +15,7 @@ context "Iterator" do
     end
 
     test "Gets each event" do
-      assert(batch.length == count - 1)
+      assert(batch.length == count)
     end
   end
 end

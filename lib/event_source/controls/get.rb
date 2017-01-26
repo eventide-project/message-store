@@ -12,7 +12,7 @@ module EventSource
         elements.each do |e|
           event_data = EventData::Read.example
           event_data.position = e
-          event_data.global_position = 2 + (e ** 2)
+          event_data.global_position = 2 + e ** 2
 
           get.items << event_data
         end
@@ -46,7 +46,12 @@ module EventSource
           logger.debug(tag: :control) { "Position: #{position.inspect}" }
           logger.debug(tag: :control) { "Batch Size: #{batch_size.inspect}" }
 
-          index = (items.index { |i| i.position == position })
+          unless EventSource::StreamName.category?(stream_name)
+            index = (items.index { |i| i.position >= position })
+          else
+            index = (items.index { |i| i.global_position >= position })
+          end
+
           logger.debug(tag: :control) { "Index: #{index.inspect}" }
 
           if index.nil?

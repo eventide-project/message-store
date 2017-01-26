@@ -6,7 +6,7 @@ context "Iterator" do
       count = 3
       get = Controls::Get.example(batch_size: 2, count: count)
 
-      iterator = Iterator.build(get, 'some_stream')
+      iterator = Iterator.build(get, 'some_stream-some_id')
 
       count.times { iterator.next }
 
