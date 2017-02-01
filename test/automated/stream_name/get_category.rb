@@ -41,5 +41,17 @@ context "Stream Name" do
         assert(stream_category == stream_name)
       end
     end
+
+    context "Stream Name Contains ID and Types" do
+      id = Identifier::UUID.random
+      category_and_types = "#{category}:someType+someOtherType"
+      stream_name = "#{category_and_types}-#{id}"
+
+      stream_category = StreamName.get_category(stream_name)
+
+      test "Category name is the stream name" do
+        assert(stream_category == category_and_types)
+      end
+    end
   end
 end

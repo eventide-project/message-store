@@ -41,5 +41,15 @@ context "Stream Name" do
         assert(entity_name == category)
       end
     end
+
+    context "Stream Name Contains ID and Types" do
+      id = Identifier::UUID.random
+      stream_name = "#{category}:someType+someOtherType-#{id}"
+      entity_name = StreamName.get_entity_name(stream_name)
+
+      test "Entity name is the category without any types" do
+        assert(entity_name == category)
+      end
+    end
   end
 end
