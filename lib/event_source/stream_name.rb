@@ -15,32 +15,36 @@ module EventSource
     end
 
     def self.get_id(stream_name)
-      id = stream_name.partition('-')[2]
+      id = stream_name.partition('-').last
       id.empty? ? nil : id
     end
 
     def self.get_category(stream_name)
-      stream_name.split('-')[0]
+      stream_name.split('-').first
     end
 
     def self.category?(stream_name)
       !stream_name.include?('-')
     end
 
-    def self.get_type_list(name)
-      type = name.split(':').last.split('-').first
+    def self.get_type_list(stream_name)
+      type = stream_name.split(':').last.split('-').first
 
-      return nil if name.start_with?(type)
+      return nil if stream_name.start_with?(type)
 
       type
     end
 
-    def self.get_types(name)
-      type_list = get_type_list(name)
+    def self.get_types(stream_name)
+      type_list = get_type_list(stream_name)
 
       return [] if type_list.nil?
 
       type_list.split('+')
+    end
+
+    def self.get_entity_name(stream_name)
+      get_category(stream_name).split(':').first
     end
   end
 end
