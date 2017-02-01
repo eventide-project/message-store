@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Stream Name" do
-  context "Category" do
+  context "Get Category" do
     category = 'someStream'
 
     context "Stream Name Contains an ID" do
