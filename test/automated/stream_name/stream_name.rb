@@ -25,6 +25,22 @@ context "Stream Name" do
     end
   end
 
+  context "Category and Types" do
+    stream_name = StreamName.stream_name('someCategory', types: ['someType', 'someOtherType'])
+
+    test "Stream name is the category and the types delimited by the plus (+) sign" do
+      assert(stream_name == 'someCategory:someType+someOtherType')
+    end
+  end
+
+  context "Category, Type, and Types" do
+    stream_name = StreamName.stream_name('someCategory', type: 'someType', types: ['someOtherType', 'yetAnotherYet'])
+
+    test "Stream name is the category and the types delimited by the plus (+) sign" do
+      assert(stream_name == 'someCategory:someType+someOtherType+yetAnotherYet')
+    end
+  end
+
   context "Category, Type and ID" do
     stream_name = StreamName.stream_name('someCategory', 'some_id', type: 'someType')
 
