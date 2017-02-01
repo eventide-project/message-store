@@ -1,9 +1,9 @@
 module EventSource
   module Controls
     module Read
-      def self.example(stream: nil)
-        stream ||= Stream.example
-        Example.new(stream)
+      def self.example(stream_name: nil)
+        stream_name ||= StreamName.example
+        Example.new(stream_name)
       end
 
       class Example
