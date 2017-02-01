@@ -5,7 +5,7 @@ module EventSource
         category ||= Category.example(category: category, randomize_category: randomize_category)
         id ||= Identifier::UUID.random
 
-        EventSource::StreamName.stream_name(category, id, type: type)
+        EventSource::StreamName.stream_name(category, id, type: type, types: types)
       end
     end
   end
