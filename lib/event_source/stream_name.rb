@@ -27,14 +27,6 @@ module EventSource
       !stream_name.include?('-')
     end
 
-    def self.get_type(name)
-      type = name.split(':').last.split('-').first
-
-      return nil if name.start_with?(type)
-
-      type
-    end
-
     def self.get_type_list(name)
       type = name.split(':').last.split('-').first
 
@@ -46,7 +38,7 @@ module EventSource
     def self.get_types(name)
       type_list = get_type_list(name)
 
-      return nil if type_list.nil?
+      return [] if type_list.nil?
 
       type_list.split('+')
     end

@@ -22,7 +22,7 @@ context "Get Types" do
   end
 
   test "Is empty if there is no type list in the stream name" do
-    type = StreamName.get_type('someStream')
-    assert(type.nil?)
+    types = StreamName.get_types('someStream')
+    assert(types.empty?)
   end
 end
