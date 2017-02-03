@@ -11,7 +11,7 @@ module EventSource
         dependency :iterator, Iterator
         dependency :get, Get
 
-        initializer :stream_name
+        initializer :stream_name, :position
 
         abstract :configure
       end
@@ -21,9 +21,9 @@ module EventSource
 
     module Build
       def build(stream_name, position: nil, batch_size: nil, session: nil)
-        new(stream_name).tap do |instance|
+        new(stream_name, position).tap do |instance|
           instance.configure(batch_size: batch_size, session: session)
-          Iterator.configure instance, instance.get, stream_name, position: position
+          # Iterator.configure instance, instance.get, stream_name, position: position
         end
       end
     end
