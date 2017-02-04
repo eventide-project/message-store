@@ -9,7 +9,6 @@ module EventSource
         cls.extend Configure
 
         dependency :iterator, Iterator
-        dependency :get, Get
 
         initializer :stream_name, :position
 
@@ -23,7 +22,6 @@ module EventSource
       def build(stream_name, position: nil, batch_size: nil, session: nil)
         new(stream_name, position).tap do |instance|
           instance.configure(batch_size: batch_size, session: session)
-          # Iterator.configure instance, instance.get, stream_name, position: position
         end
       end
     end
