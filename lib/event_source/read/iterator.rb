@@ -128,6 +128,16 @@ module EventSource
         logger.debug(tags: [:data, :batch]) { "Batch position set to: #{batch_index.inspect}" }
         logger.debug { "Done resetting batch" }
       end
+
+      class Substitute
+        include Read::Iterator
+
+        initializer :stream_name
+
+        def self.build()
+          new('some_stream_name')
+        end
+      end
     end
   end
 end
