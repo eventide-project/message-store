@@ -34,7 +34,7 @@ module EventSource
         logger.debug(tag: :control) { "Position: #{position.inspect}" }
         logger.debug(tag: :control) { "Batch Size: #{batch_size.inspect}" }
 
-        unless EventSource::StreamName.category?(stream_name)
+        unless self.class.category?(stream_name)
           index = (items.index { |i| i.position >= position })
         else
           index = (items.index { |i| i.global_position >= position })
@@ -55,6 +55,10 @@ module EventSource
         logger.info(tag: :control) { "Finished getting (Position: #{position}, Stream Name: #{stream_name.inspect})" }
 
         items
+      end
+
+      def self.category?(stream_name)
+        !stream_name.include?('-')
       end
     end
   end

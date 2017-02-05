@@ -7,10 +7,6 @@ module EventSource
       attribute :position, Integer
       attribute :global_position, Integer
       attribute :time, Time
-
-      def category
-        StreamName.get_category(stream_name)
-      end
     end
   end
 end
