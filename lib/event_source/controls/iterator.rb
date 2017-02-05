@@ -10,11 +10,15 @@ module EventSource
         include EventSource::Read::Iterator
 
         def last_position
-          unless EventSource::StreamName.category?(stream_name)
+          unless self.class.category?(stream_name)
             batch.last.position
           else
             batch.last.global_position
           end
+        end
+
+        def self.category?(stream_name)
+          !stream_name.include?('-')
         end
       end
     end
