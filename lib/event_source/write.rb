@@ -40,8 +40,8 @@ module EventSource
     end
 
     def call(event_data, stream_name, expected_version: nil)
-      logger.trace { "Writing event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
-      logger.trace(tags: [:data, :event_data]) { event_data.pretty_inspect }
+      logger.trace(tag: :write) { "Writing event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
+      logger.trace(tags: [:data, :event_data, :write]) { event_data.pretty_inspect }
 
       batch = Array(event_data)
 
@@ -49,8 +49,8 @@ module EventSource
 
       position = write(batch, stream_name, expected_version: expected_version)
 
-      logger.info { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
-      logger.info(tags: [:data, :event_data]) { event_data.pretty_inspect }
+      logger.info(tag: :write) { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
+      logger.info(tags: [:data, :event_data, :write]) { event_data.pretty_inspect }
 
       position
     end
