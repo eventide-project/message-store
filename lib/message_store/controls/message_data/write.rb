@@ -1,6 +1,6 @@
 module MessageStore
   module Controls
-    module EventData
+    module MessageData
       module Write
         def self.example(id: nil, type: nil, data: nil, metadata: nil)
           if id == :none
@@ -23,30 +23,30 @@ module MessageStore
             metadata ||= self.metadata
           end
 
-          event_data = MessageStore::EventData::Write.build
+          message_data = MessageStore::MessageData::Write.build
 
-          event_data.id = id
-          event_data.type = type
-          event_data.data = data
-          event_data.metadata = metadata
+          message_data.id = id
+          message_data.type = type
+          message_data.data = data
+          message_data.metadata = metadata
 
-          event_data
+          message_data
         end
 
         def self.id
-          EventData.id
+          MessageData.id
         end
 
         def self.type
-          EventData.type
+          MessageData.type
         end
 
         def self.data
-          EventData.data
+          MessageData.data
         end
 
         def self.metadata
-          EventData::Metadata.data
+          MessageData::Metadata.data
         end
       end
     end

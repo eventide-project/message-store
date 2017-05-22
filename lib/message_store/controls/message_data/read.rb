@@ -1,6 +1,6 @@
 module MessageStore
   module Controls
-    module EventData
+    module MessageData
       module Read
         def self.example(id: nil, type: nil, data: nil, metadata: nil)
           if id == :none
@@ -23,34 +23,34 @@ module MessageStore
             metadata ||= self.metadata
           end
 
-          event_data = MessageStore::EventData::Read.build
+          message_data = MessageStore::MessageData::Read.build
 
-          event_data.id = id
-          event_data.type = type
-          event_data.data = data
-          event_data.metadata = metadata
-          event_data.position = position
-          event_data.global_position = global_position
-          event_data.time = time
-          event_data.stream_name = stream_name
+          message_data.id = id
+          message_data.type = type
+          message_data.data = data
+          message_data.metadata = metadata
+          message_data.position = position
+          message_data.global_position = global_position
+          message_data.time = time
+          message_data.stream_name = stream_name
 
-          event_data
+          message_data
         end
 
         def self.id
-          EventData.id
+          MessageData.id
         end
 
         def self.type
-          EventData.type
+          MessageData.type
         end
 
         def self.data
-          EventData.data
+          MessageData.data
         end
 
         def self.metadata
-          EventData::Metadata.data
+          MessageData::Metadata.data
         end
 
         def self.position

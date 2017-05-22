@@ -11,11 +11,11 @@ module MessageStore
         elements = (0..(count - 1)).to_a
 
         elements.each do |e|
-          event_data = EventData::Read.example
-          event_data.position = e
-          event_data.global_position = global_position_offset.(event_data.position)
+          message_data = MessageData::Read.example
+          message_data.position = e
+          message_data.global_position = global_position_offset.(message_data.position)
 
-          get.items << event_data
+          get.items << message_data
         end
 
         get

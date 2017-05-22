@@ -1,6 +1,6 @@
 module MessageStore
   module Controls
-    module EventData
+    module MessageData
       module Metadata
         def self.data
           {

@@ -1,13 +1,13 @@
 require_relative '../automated_init'
 
-context "EventData" do
+context "MessageData" do
   context "Case Equality" do
-    read_data = Controls::EventData::Read.example
+    read_data = Controls::MessageData::Read.example
 
     context "Type is equal" do
       equal = read_data === read_data.type
 
-      context "EventData matches" do
+      context "MessageData matches" do
         assert(equal)
       end
     end
@@ -15,7 +15,7 @@ context "EventData" do
     context "Type is not equal" do
       equal = read_data === SecureRandom.hex
 
-      context "EventData does not match" do
+      context "MessageData does not match" do
         refute(equal)
       end
     end

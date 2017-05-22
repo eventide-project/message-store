@@ -1,7 +1,7 @@
 module MessageStore
-  module EventData
+  module MessageData
     class Write
-      include EventData
+      include MessageData
     end
   end
 end

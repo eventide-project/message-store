@@ -46,14 +46,14 @@ module MessageStore
 
         resupply if batch_depleted?
 
-        event_data = batch[batch_index]
+        message_data = batch[batch_index]
 
-        logger.debug(tags: [:data, :event_data]) { "Next event data: #{event_data.pretty_inspect}" }
+        logger.debug(tags: [:data, :message_data]) { "Next event data: #{message_data.pretty_inspect}" }
         logger.debug { "Done getting next event data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
         advance_batch_index
 
-        event_data
+        message_data
       end
 
       def advance_batch_index

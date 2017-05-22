@@ -1,5 +1,5 @@
 module MessageStore
-  module EventData
+  module MessageData
     def self.included(cls)
       cls.class_exec do
         include Schema::DataStructure

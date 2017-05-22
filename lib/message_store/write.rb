@@ -33,32 +33,32 @@ module MessageStore
     end
 
     module Call
-      def call(event_data, stream_name, expected_version: nil, session: nil)
+      def call(message_data, stream_name, expected_version: nil, session: nil)
         instance = build(session: session)
-        instance.(event_data, stream_name, expected_version: expected_version)
+        instance.(message_data, stream_name, expected_version: expected_version)
       end
     end
 
-    def call(event_data, stream_name, expected_version: nil)
+    def call(message_data, stream_name, expected_version: nil)
       logger.trace(tag: :write) { "Writing event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
-      logger.trace(tags: [:data, :event_data, :write]) { event_data.pretty_inspect }
+      logger.trace(tags: [:data, :message_data, :write]) { message_data.pretty_inspect }
 
-      batch = Array(event_data)
+      batch = Array(message_data)
 
       set_ids(batch)
 
       position = write(batch, stream_name, expected_version: expected_version)
 
       logger.info(tag: :write) { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
-      logger.info(tags: [:data, :event_data, :write]) { event_data.pretty_inspect }
+      logger.info(tags: [:data, :message_data, :write]) { message_data.pretty_inspect }
 
       position
     end
 
     def set_ids(batch)
-      batch.each do |event_data|
-        if event_data.id.nil?
-          event_data.id = identifier.get
+      batch.each do |message_data|
+        if message_data.id.nil?
+          message_data.id = identifier.get
         end
       end
     end

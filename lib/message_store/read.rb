@@ -50,24 +50,24 @@ module MessageStore
         raise Error, error_message
       end
 
-      enumerate_event_data(&action)
+      enumerate_message_data(&action)
 
       logger.info { "Reading completed (Stream Name: #{stream_name})" }
 
       return AsyncInvocation::Incorrect
     end
 
-    def enumerate_event_data(&action)
+    def enumerate_message_data(&action)
       logger.trace { "Enumerating (Stream Name: #{stream_name})" }
 
-      event_data = nil
+      message_data = nil
 
       loop do
-        event_data = iterator.next
+        message_data = iterator.next
 
-        break if event_data.nil?
+        break if message_data.nil?
 
-        action.(event_data)
+        action.(message_data)
       end
 
       logger.debug { "Enumerated (Stream Name: #{stream_name})" }

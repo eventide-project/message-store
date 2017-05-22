@@ -1,6 +1,6 @@
 module MessageStore
   module Controls
-    module EventData
+    module MessageData
       def self.id
         ID::Random.example
       end

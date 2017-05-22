@@ -1,6 +1,6 @@
 module MessageStore
   module Controls
-    module EventData
+    module MessageData
       module Hash
         def self.data
           {
@@ -9,7 +9,7 @@ module MessageStore
         end
 
         def self.example
-          MessageStore::EventData::Hash[data]
+          MessageStore::MessageData::Hash[data]
         end
 
         module JSON

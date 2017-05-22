@@ -1,5 +1,5 @@
 module MessageStore
-  module EventData
+  module MessageData
     class Hash < ::Hash
       module Transformer
         def self.json

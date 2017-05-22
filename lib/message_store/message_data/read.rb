@@ -1,7 +1,7 @@
 module MessageStore
-  module EventData
+  module MessageData
     class Read
-      include EventData
+      include MessageData
 
       attribute :stream_name, String
       attribute :position, Integer

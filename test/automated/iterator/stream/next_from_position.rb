@@ -11,8 +11,8 @@ context "Iterator" do
     batch = []
 
     count.times do
-      event_data = iterator.next
-      batch << event_data unless event_data.nil?
+      message_data = iterator.next
+      batch << message_data unless message_data.nil?
     end
 
     test "Gets each event" do

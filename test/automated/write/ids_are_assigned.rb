@@ -3,9 +3,9 @@ require_relative '../automated_init'
 context "Write" do
   stream_name = Controls::StreamName.example
 
-  write_event_1 = Controls::EventData::Write.example(id: :none)
-  write_event_2 = Controls::EventData::Write.example
-  write_event_3 = Controls::EventData::Write.example(id: :none)
+  write_event_1 = Controls::MessageData::Write.example(id: :none)
+  write_event_2 = Controls::MessageData::Write.example
+  write_event_3 = Controls::MessageData::Write.example(id: :none)
 
   id = write_event_2.id
 
