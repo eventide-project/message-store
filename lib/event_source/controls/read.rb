@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module Read
       def self.example(stream_name: nil)
@@ -7,7 +7,7 @@ module EventSource
       end
 
       class Example
-        include EventSource::Read
+        include MessageStore::Read
 
         def configure(*); end
       end

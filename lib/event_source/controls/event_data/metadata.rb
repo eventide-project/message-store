@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module EventData
       module Metadata

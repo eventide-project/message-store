@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module ExpectedVersion
     class Error < RuntimeError; end
 

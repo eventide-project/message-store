@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module Get
       def self.example(batch_size: nil, count: nil, global_position_offset: nil)
@@ -6,7 +6,7 @@ module EventSource
         count ||= 1
         global_position_offset ||= -> (x) { x ** 2 }
 
-        get = EventSource::Get::Substitute.build(batch_size: batch_size)
+        get = MessageStore::Get::Substitute.build(batch_size: batch_size)
 
         elements = (0..(count - 1)).to_a
 

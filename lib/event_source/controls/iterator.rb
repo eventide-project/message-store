@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module Iterator
       def self.example(stream_name: nil, position: nil)
@@ -7,7 +7,7 @@ module EventSource
       end
 
       class Example
-        include EventSource::Read::Iterator
+        include MessageStore::Read::Iterator
 
         def last_position
           unless self.class.category?(stream_name)

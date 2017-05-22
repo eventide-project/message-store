@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module EventData
       module Read
@@ -23,7 +23,7 @@ module EventSource
             metadata ||= self.metadata
           end
 
-          event_data = EventSource::EventData::Read.build
+          event_data = MessageStore::EventData::Read.build
 
           event_data.id = id
           event_data.type = type

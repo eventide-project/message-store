@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Get
     def self.included(cls)
       cls.class_exec do

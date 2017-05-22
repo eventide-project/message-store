@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module EventData
       module Hash
@@ -9,7 +9,7 @@ module EventSource
         end
 
         def self.example
-          EventSource::EventData::Hash[data]
+          MessageStore::EventData::Hash[data]
         end
 
         module JSON

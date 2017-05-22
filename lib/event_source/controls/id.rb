@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module ID
       def self.example(i=nil, increment: nil, sample: nil)

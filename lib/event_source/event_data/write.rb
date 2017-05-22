@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module EventData
     class Write
       include EventData

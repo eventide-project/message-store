@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module Write
       def self.example
@@ -6,7 +6,7 @@ module EventSource
       end
 
       class Example
-        include EventSource::Write
+        include MessageStore::Write
 
         def configure(*)
         end

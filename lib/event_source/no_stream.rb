@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module NoStream
     def self.name
       :no_stream

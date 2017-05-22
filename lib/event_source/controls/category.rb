@@ -1,6 +1,6 @@
 
 
-module EventSource
+module MessageStore
   module Controls
     module Category
       def self.example(category: nil, randomize_category: nil)

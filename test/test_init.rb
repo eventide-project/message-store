@@ -18,4 +18,4 @@ require 'test_bench'; TestBench.activate
 
 require 'event_source/controls'
 
-include EventSource
+include MessageStore

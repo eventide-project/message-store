@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Controls
     module StreamName
       def self.example(category: nil, id: nil, type: nil, types: nil, randomize_category: nil)

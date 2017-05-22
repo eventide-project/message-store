@@ -1,4 +1,4 @@
-module EventSource
+module MessageStore
   module Read
     module Iterator
       def self.included(cls)
