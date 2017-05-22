@@ -1,3 +1,3 @@
 source ./library-symlinks.sh
 
-remove_lib_symlinks 'event_source'
+remove_lib_symlinks 'message_store'
