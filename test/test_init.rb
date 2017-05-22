@@ -16,6 +16,6 @@ require_relative '../init.rb'
 
 require 'test_bench'; TestBench.activate
 
-require 'event_source/controls'
+require 'message_store/controls'
 
 include MessageStore
