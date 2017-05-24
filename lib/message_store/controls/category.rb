@@ -1,5 +1,3 @@
-
-
 module MessageStore
   module Controls
     module Category
