@@ -15,6 +15,7 @@ require 'message_store/message_data'
 require 'message_store/message_data/hash'
 require 'message_store/message_data/write'
 require 'message_store/message_data/read'
+require 'message_store/stream_name'
 
 require 'message_store/log'
 
