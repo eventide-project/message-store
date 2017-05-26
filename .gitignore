@@ -12,3 +12,8 @@ gems_backup
 loader.rb
 postgres
 postgres.*
+
+lib/message_store/event_store
+lib/message_store/event_store.rb
+lib/message_store/postgres
+lib/message_store/postgres.rb
