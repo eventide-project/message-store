@@ -15,7 +15,7 @@ context "Iterator" do
       batch << message_data unless message_data.nil?
     end
 
-    test "Gets each event" do
+    test "Gets each message" do
       assert(batch.length == count)
     end
   end
