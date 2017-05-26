@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.name = 'evt-message_store'
   s.version = '0.1.0.0'
-  s.summary = 'Common primitives for message store clients'
+  s.summary = 'Common primitives for platform-specific message store implementations'
   s.description = ' '
 
   s.authors = ['The Eventide Project']
