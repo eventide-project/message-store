@@ -42,14 +42,14 @@ module MessageStore
       end
 
       def next
-        logger.trace { "Getting next event data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
+        logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
         resupply if batch_depleted?
 
         message_data = batch[batch_index]
 
-        logger.debug(tags: [:data, :message_data]) { "Next event data: #{message_data.pretty_inspect}" }
-        logger.debug { "Done getting next event data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
+        logger.debug(tags: [:data, :message_data]) { "Next message data: #{message_data.pretty_inspect}" }
+        logger.debug { "Done getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
         advance_batch_index
 

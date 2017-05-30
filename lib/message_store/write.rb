@@ -40,7 +40,7 @@ module MessageStore
     end
 
     def call(message_data, stream_name, expected_version: nil)
-      logger.trace(tag: :write) { "Writing event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
+      logger.trace(tag: :write) { "Writing message data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
       logger.trace(tags: [:data, :message_data, :write]) { message_data.pretty_inspect }
 
       batch = Array(message_data)
@@ -49,7 +49,7 @@ module MessageStore
 
       position = write(batch, stream_name, expected_version: expected_version)
 
-      logger.info(tag: :write) { "Wrote event data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
+      logger.info(tag: :write) { "Wrote message data (Stream Name: #{stream_name}, Expected Version: #{expected_version.inspect})" }
       logger.info(tags: [:data, :message_data, :write]) { message_data.pretty_inspect }
 
       position
