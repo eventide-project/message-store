@@ -17,6 +17,9 @@ module MessageStore
           @session ||= GetLast.default_session
         end
 
+        def call(stream_name)
+        end
+
         def configure(session: nil)
           self.session = session
         end

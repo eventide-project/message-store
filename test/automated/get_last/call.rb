@@ -5,25 +5,29 @@ context "Get Last" do
     stream_name = Controls::StreamName.example
 
     context "Not Specialized" do
-      get_last = Controls::GetLast.example
+      cls = Class.new do
+        include MessageStore::Get::Last
+      end
 
       test "Raises virtual method error" do
-        assert proc { get_last.(stream_name) } do
+        assert proc { cls.(stream_name) } do
           raises_error?(Virtual::PureMethodError)
         end
       end
     end
 
     context "Specialized" do
-      get_last = Controls::GetLast.example
-
       specialized_method_executed = false
 
-      get_last.define_singleton_method(:call) do |_stream_name|
-        specialized_method_executed = true if _stream_name == stream_name
+      cls = Class.new do
+        include MessageStore::Get::Last
+
+        define_method(:call) do |_stream_name|
+          specialized_method_executed = true if _stream_name == stream_name
+        end
       end
 
-      get_last.(stream_name)
+      cls.(stream_name)
 
       test "Executes specialized method" do
         assert(specialized_method_executed)

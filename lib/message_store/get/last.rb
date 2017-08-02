@@ -6,16 +6,17 @@ module MessageStore
           include Log::Dependency
 
           extend Build
+          extend Call
           extend Configure
 
-          prepend Call
+          prepend InstanceActuator
 
           virtual :configure
           abstract :call
         end
       end
 
-      module Call
+      module InstanceActuator
         def call(stream_name)
           logger.trace { "Getting last message data (Stream Name: #{stream_name})" }
 
@@ -43,6 +44,13 @@ module MessageStore
           instance = build(session: session)
           receiver.public_send("#{attr_name}=", instance)
           instance
+        end
+      end
+
+      module Call
+        def call(stream_name, session: nil)
+          instance = build(session: session)
+          instance.(stream_name)
         end
       end
     end
