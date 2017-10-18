@@ -19,24 +19,24 @@ module MessageStore
     class Error < RuntimeError; end
 
     module Build
-      def build(stream_name, position: nil, batch_size: nil, session: nil)
+      def build(stream_name, position: nil, batch_size: nil, session: nil, **arguments)
         new(stream_name, position, batch_size).tap do |instance|
-          instance.configure(session: session)
+          instance.configure(session: session, **arguments)
         end
       end
     end
 
     module Call
-      def call(stream_name, position: nil, batch_size: nil, session: nil, &action)
-        instance = build(stream_name, position: position, batch_size: batch_size, session: session)
+      def call(stream_name, position: nil, batch_size: nil, session: nil, **arguments, &action)
+        instance = build(stream_name, position: position, batch_size: batch_size, session: session, **arguments)
         instance.(&action)
       end
     end
 
     module Configure
-      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, session: nil)
+      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, session: nil, **arguments)
         attr_name ||= :read
-        instance = build(stream_name, position: position, batch_size: batch_size, session: session)
+        instance = build(stream_name, position: position, batch_size: batch_size, session: session, **arguments)
         receiver.public_send "#{attr_name}=", instance
       end
     end
