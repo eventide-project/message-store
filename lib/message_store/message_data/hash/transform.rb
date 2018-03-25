@@ -1,7 +1,7 @@
 module MessageStore
   module MessageData
     class Hash < ::Hash
-      module Transformer
+      module Transform
         def self.json
           JSON
         end
