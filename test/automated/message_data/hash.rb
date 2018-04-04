@@ -15,7 +15,7 @@ context "MessageData" do
       example_serialized_text = Controls::MessageData::Hash::JSON.text
       control_deserialized_hash = Controls::MessageData::Hash.example
 
-      deserialized_hash = Transform::Read.(example_serialized_text, MessageData::Hash, :json)
+      deserialized_hash = Transform::Read.(example_serialized_text, :json, MessageData::Hash)
 
       assert(deserialized_hash == control_deserialized_hash)
     end
