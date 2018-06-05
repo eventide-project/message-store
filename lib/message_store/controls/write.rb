@@ -1,7 +1,10 @@
 module MessageStore
   module Controls
     module Write
-      Error = Class.new(RuntimeError)
+      class Error < RuntimeError
+        class Duplicate < Error
+        end
+      end
 
       def self.example
         Example.build
