@@ -2,13 +2,13 @@ module MessageStore
   module Controls
     module StreamName
       def self.example(category: nil, id: nil, type: nil, types: nil, randomize_category: nil)
-        category ||= Category.example(category: category, randomize_category: randomize_category)
-
         if id == :none
           id = nil
         else
           id ||= Identifier::UUID.random
         end
+
+        category = Category.example(category: category, randomize_category: randomize_category)
 
         stream_name(category, id, type: type, types: types)
       end
