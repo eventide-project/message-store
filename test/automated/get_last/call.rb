@@ -11,7 +11,7 @@ context "Get Last" do
 
       test "Raises virtual method error" do
         assert proc { cls.(stream_name) } do
-          raises_error?(Virtual::PureMethodError)
+          raises_error?(Virtual::PureMethod::Error)
         end
       end
     end
