@@ -1,6 +1,8 @@
 module MessageStore
   module Controls
     module Write
+      Error = Class.new(RuntimeError)
+
       def self.example
         Example.build
       end

@@ -16,7 +16,7 @@ module MessageStore
       end
     end
 
-    class Error < RuntimeError; end
+    Error = Class.new(RuntimeError)
 
     module Build
       def build(stream_name, position: nil, batch_size: nil, session: nil, **arguments)

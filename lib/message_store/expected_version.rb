@@ -1,6 +1,6 @@
 module MessageStore
   module ExpectedVersion
-    class Error < RuntimeError; end
+    Error = Class.new(RuntimeError)
 
     def self.canonize(expected_version)
       return nil if expected_version.nil?
