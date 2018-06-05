@@ -1,11 +1,6 @@
 module MessageStore
   module Controls
     module Write
-      class Error < RuntimeError
-        class Duplicate < Error
-        end
-      end
-
       def self.example
         Example.build
       end

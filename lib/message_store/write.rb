@@ -15,6 +15,11 @@ module MessageStore
       end
     end
 
+    class Error < RuntimeError
+      class Duplicate < Error
+      end
+    end
+
     module Build
       def build(session: nil)
         instance = new
