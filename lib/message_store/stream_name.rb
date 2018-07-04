@@ -4,7 +4,7 @@ module MessageStore
 
     def self.stream_name(category_name, id=nil, type: nil, types: nil)
       if category_name == nil
-        raise Error, "Category name must not be omitted"
+        raise Error, "Category name must not be omitted from stream name"
       end
 
       types = Array(types)
