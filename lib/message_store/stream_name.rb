@@ -1,6 +1,12 @@
 module MessageStore
   module StreamName
+    Error = Class.new(RuntimeError)
+
     def self.stream_name(category_name, id=nil, type: nil, types: nil)
+      if category_name == nil
+        raise Error, "Category name must not be omitted"
+      end
+
       types = Array(types)
       types.unshift(type) unless type.nil?
 
