@@ -6,8 +6,8 @@ module MessageStore
 
         attribute :id, String
         attribute :type, String
-        attribute :data
-        attribute :metadata
+        attribute :data, ::Hash
+        attribute :metadata, ::Hash
 
         def ===(other)
           type == other
