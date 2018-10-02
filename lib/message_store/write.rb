@@ -60,6 +60,7 @@ module MessageStore
 
       position
     end
+    alias :write :call
 
     def set_ids(batch)
       batch.each do |message_data|
