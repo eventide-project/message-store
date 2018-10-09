@@ -3,8 +3,8 @@ module MessageStore
     module Iterator
       def self.included(cls)
         cls.class_exec do
-          cls.extend Build
-          cls.extend Configure
+          extend Build
+          extend Configure
 
           include Log::Dependency
 

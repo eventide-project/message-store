@@ -4,9 +4,9 @@ module MessageStore
       cls.class_exec do
         include Log::Dependency
 
-        cls.extend Build
-        cls.extend Call
-        cls.extend Configure
+        extend Build
+        extend Call
+        extend Configure
 
         dependency :iterator, Iterator
 
