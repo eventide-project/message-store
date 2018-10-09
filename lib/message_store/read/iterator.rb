@@ -3,6 +3,7 @@ module MessageStore
     module Iterator
       def self.included(cls)
         cls.class_exec do
+          Dependency.activate(self)
           Initializer.activate(self)
 
           extend Build
