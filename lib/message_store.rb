@@ -6,7 +6,7 @@ require 'identifier/uuid'
 require 'schema'
 require 'initializer'
 require 'transform'
-require 'virtual'; Virtual.activate
+require 'virtual'
 require 'async_invocation'
 
 require 'message_store/expected_version'

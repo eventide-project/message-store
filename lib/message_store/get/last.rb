@@ -3,6 +3,8 @@ module MessageStore
     module Last
       def self.included(cls)
         cls.class_exec do
+          Virtual.activate(self)
+
           include Log::Dependency
 
           extend Build

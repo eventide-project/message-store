@@ -4,6 +4,7 @@ module MessageStore
       cls.class_exec do
         Dependency.activate(self)
         Initializer.activate(self)
+        Virtual.activate(self)
 
         include Log::Dependency
 

@@ -10,6 +10,7 @@ module MessageStore
 
     class Substitute
       Initializer.activate(self)
+      Virtual.activate(self)
 
       include Get
 
