@@ -9,6 +9,8 @@ module MessageStore
     end
 
     class Substitute
+      Initializer.activate(self)
+
       include Get
 
       initializer na(:batch_size)

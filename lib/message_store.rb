@@ -4,7 +4,7 @@ require 'json'
 require 'casing'
 require 'identifier/uuid'
 require 'schema'
-require 'initializer'; Initializer.activate
+require 'initializer'
 require 'transform'
 require 'virtual'; Virtual.activate
 require 'async_invocation'

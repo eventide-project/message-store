@@ -2,6 +2,8 @@ module MessageStore
   module Read
     def self.included(cls)
       cls.class_exec do
+        Initializer.activate(self)
+
         include Log::Dependency
 
         extend Build
