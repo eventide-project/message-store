@@ -2,10 +2,9 @@ module MessageStore
   module Get
     def self.included(cls)
       cls.class_exec do
-        Dependency.activate(self)
-        Initializer.activate(self)
-        Virtual.activate(self)
-
+        include Dependency
+        include Initializer
+        include Virtual
         include Log::Dependency
 
         abstract :call
@@ -13,8 +12,8 @@ module MessageStore
     end
 
     class Substitute
-      Initializer.activate(self)
-      Virtual.activate(self)
+      include Initializer
+      include Virtual
 
       include Get
 

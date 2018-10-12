@@ -3,9 +3,8 @@ module MessageStore
     module Last
       def self.included(cls)
         cls.class_exec do
-          Dependency.activate(self)
-          Virtual.activate(self)
-
+          include Dependency
+          include Virtual
           include Log::Dependency
 
           extend Build
@@ -16,6 +15,8 @@ module MessageStore
 
           virtual :configure
           abstract :call
+
+          const_set :Substitute, Substitute
         end
       end
 

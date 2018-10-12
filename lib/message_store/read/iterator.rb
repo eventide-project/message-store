@@ -3,14 +3,13 @@ module MessageStore
     module Iterator
       def self.included(cls)
         cls.class_exec do
-          Dependency.activate(self)
-          Initializer.activate(self)
-          Virtual.activate(self)
+          include Dependency
+          include Initializer
+          include Virtual
+          include Log::Dependency
 
           extend Build
           extend Configure
-
-          include Log::Dependency
 
           dependency :get, Get
 
