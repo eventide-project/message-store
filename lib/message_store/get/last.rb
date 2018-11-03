@@ -22,11 +22,11 @@ module MessageStore
 
       module InstanceActuator
         def call(stream_name)
-          logger.trace { "Getting last message data (Stream Name: #{stream_name})" }
+          logger.trace(tag: :get) { "Getting last message data (Stream Name: #{stream_name})" }
 
           message_data = super
 
-          logger.info { "Finished getting message data (Stream Name: #{stream_name})" }
+          logger.info(tag: :get) { "Finished getting message data (Stream Name: #{stream_name})" }
           logger.info(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
           message_data
