@@ -45,23 +45,23 @@ module MessageStore
     end
 
     def call(&action)
-      logger.trace { "Reading (Stream Name: #{stream_name})" }
+      logger.trace(tag: :read) { "Reading (Stream Name: #{stream_name})" }
 
       if action.nil?
         error_message = "Reader must be actuated with a block"
-        logger.error error_message
+        logger.error(tag: :read) { error_message }
         raise Error, error_message
       end
 
       enumerate_message_data(&action)
 
-      logger.info { "Reading completed (Stream Name: #{stream_name})" }
+      logger.info(tag: :read) { "Reading completed (Stream Name: #{stream_name})" }
 
       return AsyncInvocation::Incorrect
     end
 
     def enumerate_message_data(&action)
-      logger.trace { "Enumerating (Stream Name: #{stream_name})" }
+      logger.trace(tag: :read) { "Enumerating (Stream Name: #{stream_name})" }
 
       message_data = nil
 
@@ -73,7 +73,7 @@ module MessageStore
         action.(message_data)
       end
 
-      logger.debug { "Enumerated (Stream Name: #{stream_name})" }
+      logger.debug(tag: :read) { "Enumerated (Stream Name: #{stream_name})" }
     end
   end
 end
