@@ -33,12 +33,26 @@ module MessageStore
       !stream_name.include?('-')
     end
 
-    def self.get_type_list(stream_name)
+# TODO consider a stream name data structw
+    def self.___get_type_list(stream_name)
+# TODO if this is > 2, raise error that more than one colon
+
+## If
       type = stream_name.split(':').last.split('-').first
 
+## No type list if stream name start with type
+## eg:
       return nil if stream_name.start_with?(type)
 
       type
+    end
+
+    def self.get_type_list(stream_name)
+      return nil if stream_name.index(':').nil?
+
+      category = get_category(stream_name)
+
+      category.split(':').last
     end
 
     def self.get_types(stream_name)
