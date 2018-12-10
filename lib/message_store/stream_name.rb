@@ -20,25 +20,40 @@ module MessageStore
       stream_name
     end
 
+    def self.stream_delimiter
+      '-'
+    end
+
+    def self.category_delimiter
+      ':'
+    end
+
+    def self.type_delimiter
+      '+'
+    end
+
+    def self.split(stream_name)
+      stream_name.split(stream_delimiter, 2)
+    end
+
     def self.get_id(stream_name)
-      id = stream_name.partition('-').last
-      id.empty? ? nil : id
+      split(stream_name)[1]
     end
 
     def self.get_category(stream_name)
-      stream_name.split('-').first
+      split(stream_name)[0]
     end
 
     def self.category?(stream_name)
-      !stream_name.include?('-')
+      !stream_name.include?(stream_delimiter)
     end
 
     def self.get_type_list(stream_name)
-      return nil if stream_name.index(':').nil?
+      return nil unless stream_name.include?(category_delimiter)
 
       category = get_category(stream_name)
 
-      category.split(':').last
+      category.split(category_delimiter)[1]
     end
 
     def self.get_types(stream_name)
@@ -46,11 +61,11 @@ module MessageStore
 
       return [] if type_list.nil?
 
-      type_list.split('+')
+      type_list.split(type_delimiter)
     end
 
     def self.get_entity_name(stream_name)
-      get_category(stream_name).split(':').first
+      get_category(stream_name).split(category_delimiter)[0]
     end
   end
 end
