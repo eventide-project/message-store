@@ -47,7 +47,9 @@ module MessageStore
       def next
         logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
-        resupply if batch_depleted?
+        if batch_depleted?
+          resupply
+        end
 
         message_data = batch[batch_index]
 
