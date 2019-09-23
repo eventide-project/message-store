@@ -55,7 +55,7 @@ module MessageStore
 
         ## (batch &.length || -1) < batch_size
         ## source_depleted: fewer messages than requested
-        unless source_depleted?
+        unless stream_depleted?
         ##
           if batch_depleted?
             resupply
@@ -162,7 +162,7 @@ module MessageStore
         false
       end
 
-      def source_depleted?
+      def stream_depleted?
         if (batch &.length || -1) < batch_size
           logger.debug { "Source is depleted (Batch Length: #{batch &.length || '(none)'}, Batch Size: #{batch_size})" }
           return true
