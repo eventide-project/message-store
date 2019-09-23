@@ -51,12 +51,14 @@ module MessageStore
       def next
         logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
-## And not source depleted (batch.size < batch_size)
-        if batch_depleted?
-          resupply
-        end
+        message_data = nil
+        unless source_depleted?
+          if batch_depleted?
+            resupply
+          end
 
-        message_data = batch[batch_index]
+          message_data = batch[batch_index]
+        end
 
         logger.debug(tags: [:data, :message_data]) { "Next message data: #{message_data.pretty_inspect}" }
         logger.debug { "Done getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
@@ -92,7 +94,12 @@ module MessageStore
       end
 
       def source_depleted?
-        batch.size < batch_size
+        if (batch &.length || -1) < batch_size
+          logger.debug { "Source is depleted (Batch Length: #{batch &.length || '(none)'}, Batch Size: #{batch_size})" }
+          return true
+        end
+
+        false
       end
 
       def resupply
