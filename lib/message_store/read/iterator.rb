@@ -92,12 +92,10 @@ module MessageStore
       def resupply
         logger.trace { "Resupplying batch (Current Batch Length: #{(batch &.length).inspect})" }
 
-##
         batch = []
         unless stream_depleted?
           batch = get_batch
         end
-##
 
         reset(batch)
 
@@ -110,9 +108,17 @@ module MessageStore
         logger.trace "Getting batch (Position: #{position.inspect})"
 
         batch = []
+
+
+# ...
+## if starting position is nil coaled to 0, would next batch pos
+## ever be nil?
+
         if position.nil? || position >= 0  ## Is this always true??
           batch = get.(stream_name, position: position)
         end
+
+
 
         logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
 
@@ -120,8 +126,8 @@ module MessageStore
       end
 
       def next_batch_starting_position
-        if batch.nil?
-          logger.debug { "Batch is nil (Next batch starting position: #{starting_position.inspect})" }
+        if !batch_initialized?
+          logger.debug { "Batch is not initialized (Next batch starting position: #{starting_position.inspect})" }
           return starting_position
         end
 
@@ -149,9 +155,13 @@ module MessageStore
         logger.debug { "Advanced batch index (Batch Index: #{batch_index})" }
       end
 
+      def batch_initialized?
+        !batch.nil?
+      end
+
       def batch_depleted?
-        if batch.nil?
-          logger.debug { "Batch is depleted (Batch is nil)" }
+        if !batch_initialized?
+          logger.debug { "Batch is depleted (Batch is not initialized)" }
           return true
         end
 
@@ -165,14 +175,9 @@ module MessageStore
           return true
         end
 
+        logger.debug { "Batch is not depleted (Batch Index: #{batch_index}, Batch Length: #{batch.length})" }
         false
       end
-
-##
-      def batch_initialized?
-        !batch.nil?
-      end
-##
 
       def stream_depleted?
         if !batch_initialized?
@@ -181,12 +186,11 @@ module MessageStore
         end
 
         if batch.length < batch_size
-pp "!!! Stream Depleted"
           logger.debug { "Stream is depleted (Batch Length: #{batch.length}, Batch Size: #{batch_size})" }
           return true
         end
 
-        logger.debug { "Stream is not depleted (Batch Length: #{batch.length || '(none)'}, Batch Size: #{batch_size})" }
+        logger.debug { "Stream is not depleted (Batch Length: #{batch.length}, Batch Size: #{batch_size})" }
         false
       end
 
