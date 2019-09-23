@@ -1,11 +1,12 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Iterator" do
   context "Batch Depleted" do
-    context "Batch in Nil" do
+    context "Batch Index is the Batch Length" do
       iterator = Controls::Iterator.example
 
-      iterator.batch = nil
+      iterator.batch = [1, 11]
+      iterator.batch_index = 2
 
       batch_depleted = iterator.batch_depleted?
 

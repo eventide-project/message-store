@@ -27,6 +27,10 @@ module MessageStore
       end
       attr_writer :batch_index
 
+      def batch_size
+        get.batch_size
+      end
+
       module Build
         def build(stream_name, position: nil)
           new(stream_name).tap do |instance|
@@ -47,6 +51,7 @@ module MessageStore
       def next
         logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
+## And not source depleted (batch.size < batch_size)
         if batch_depleted?
           resupply
         end
@@ -86,6 +91,10 @@ module MessageStore
         false
       end
 
+      def source_depleted?
+        batch.size < batch_size
+      end
+
       def resupply
         logger.trace { "Resupplying batch (Current Batch Length: #{(batch &.length).inspect})" }
 
@@ -101,7 +110,7 @@ module MessageStore
         logger.trace "Getting batch (Position: #{position.inspect})"
 
         batch = []
-        if position.nil? || position >= 0
+        if position.nil? || position >= 0  ## Is this always true??
           batch = get.(stream_name, position: position)
         end
 

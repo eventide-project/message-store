@@ -1,11 +1,11 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Iterator" do
   context "Batch Depleted" do
-    context "Batch in Empty" do
+    context "Batch in Nil" do
       iterator = Controls::Iterator.example
 
-      iterator.batch = []
+      iterator.batch = nil
 
       batch_depleted = iterator.batch_depleted?
 
