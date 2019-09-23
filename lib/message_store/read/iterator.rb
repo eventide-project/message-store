@@ -52,30 +52,6 @@ module MessageStore
         end
       end
 
-      def ___next
-        logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
-
-        message_data = nil
-
-        ## (batch &.length || -1) < batch_size
-        ## source_depleted: fewer messages than requested
-        unless stream_depleted?
-        ##
-          if batch_depleted?
-            resupply
-          end
-
-          message_data = batch[batch_index]
-        end
-
-        logger.debug(tags: [:data, :message_data]) { "Next message data: #{message_data.pretty_inspect}" }
-        logger.debug { "Done getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
-
-        advance_batch_index
-
-        message_data
-      end
-
       def next
         logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
@@ -111,23 +87,7 @@ module MessageStore
 
         logger.trace "Getting batch (Position: #{position.inspect})"
 
-##
-        batch = []
-##
-
-# ...
-## if starting position is nil coaled to 0, would next batch pos
-## ever be nil?
-
-        # ## Is this always true??
-        # ### Suspect this to protect against nil comparison
-        # if position.nil? || position >= 0
-        #   batch = get.(stream_name, position: position)
-        # end
-
-
         batch = get.(stream_name, position: position)
-
 
         logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
 
