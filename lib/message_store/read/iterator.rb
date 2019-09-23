@@ -19,8 +19,12 @@ module MessageStore
         end
       end
 
-      attr_accessor :starting_position
       attr_accessor :batch
+
+      def starting_position
+        @starting_position ||= 0
+      end
+      attr_writer :starting_position
 
       def batch_index
         @batch_index ||= 0
@@ -107,17 +111,22 @@ module MessageStore
 
         logger.trace "Getting batch (Position: #{position.inspect})"
 
+##
         batch = []
-
+##
 
 # ...
 ## if starting position is nil coaled to 0, would next batch pos
 ## ever be nil?
 
-        if position.nil? || position >= 0  ## Is this always true??
-          batch = get.(stream_name, position: position)
-        end
+        # ## Is this always true??
+        # ### Suspect this to protect against nil comparison
+        # if position.nil? || position >= 0
+        #   batch = get.(stream_name, position: position)
+        # end
 
+
+        batch = get.(stream_name, position: position)
 
 
         logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
