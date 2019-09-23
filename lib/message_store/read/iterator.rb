@@ -48,23 +48,6 @@ module MessageStore
         end
       end
 
-      def next
-        logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
-
-        if batch_depleted?
-          resupply
-        end
-
-        message_data = batch[batch_index]
-
-        logger.debug(tags: [:data, :message_data]) { "Next message data: #{message_data.pretty_inspect}" }
-        logger.debug { "Done getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
-
-        advance_batch_index
-
-        message_data
-      end
-
       def ___next
         logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
@@ -89,38 +72,21 @@ module MessageStore
         message_data
       end
 
-      def advance_batch_index
-        logger.trace { "Advancing batch index (Batch Index: #{batch_index})" }
-        self.batch_index += 1
-        logger.debug { "Advanced batch index (Batch Index: #{batch_index})" }
-      end
+      def next
+        logger.trace { "Getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
-      def batch_depleted?
-        if batch.nil?
-          logger.debug { "Batch is depleted (Batch is nil)" }
-          return true
+        if batch_depleted?
+          resupply
         end
 
-        if batch.empty?
-          logger.debug { "Batch is depleted (Batch is empty)" }
-          return true
-        end
+        message_data = batch[batch_index]
 
-        if batch_index == batch.length
-          logger.debug { "Batch is depleted (Batch Index: #{batch_index}, Batch Length: #{batch.length})" }
-          return true
-        end
+        logger.debug(tags: [:data, :message_data]) { "Next message data: #{message_data.pretty_inspect}" }
+        logger.debug { "Done getting next message data (Batch Length: #{(batch &.length).inspect}, Batch Index: #{batch_index})" }
 
-        false
-      end
+        advance_batch_index
 
-      def source_depleted?
-        if (batch &.length || -1) < batch_size
-          logger.debug { "Source is depleted (Batch Length: #{batch &.length || '(none)'}, Batch Size: #{batch_size})" }
-          return true
-        end
-
-        false
+        message_data
       end
 
       def resupply
@@ -169,6 +135,40 @@ module MessageStore
         logger.debug(tags: [:data, :batch]) { "Batch set to: \n#{batch.pretty_inspect}" }
         logger.debug(tags: [:data, :batch]) { "Batch position set to: #{batch_index.inspect}" }
         logger.debug { "Done resetting batch" }
+      end
+
+      def advance_batch_index
+        logger.trace { "Advancing batch index (Batch Index: #{batch_index})" }
+        self.batch_index += 1
+        logger.debug { "Advanced batch index (Batch Index: #{batch_index})" }
+      end
+
+      def batch_depleted?
+        if batch.nil?
+          logger.debug { "Batch is depleted (Batch is nil)" }
+          return true
+        end
+
+        if batch.empty?
+          logger.debug { "Batch is depleted (Batch is empty)" }
+          return true
+        end
+
+        if batch_index == batch.length
+          logger.debug { "Batch is depleted (Batch Index: #{batch_index}, Batch Length: #{batch.length})" }
+          return true
+        end
+
+        false
+      end
+
+      def source_depleted?
+        if (batch &.length || -1) < batch_size
+          logger.debug { "Source is depleted (Batch Length: #{batch &.length || '(none)'}, Batch Size: #{batch_size})" }
+          return true
+        end
+
+        false
       end
 
       class Substitute
