@@ -2,7 +2,7 @@ require_relative '../../../automated_init'
 
 context "Iterator" do
   context "Stream Depleted" do
-    context "Batch is Nil" do
+    context "Batch is Uninitialized" do
       get = Controls::Get.example(batch_size: 2)
       iterator = Controls::Iterator.example
       iterator.get = get
@@ -11,8 +11,8 @@ context "Iterator" do
 
       stream_depleted = iterator.stream_depleted?
 
-      test "Stream is depleted" do
-        assert(stream_depleted)
+      test "Stream is not depleted" do
+        refute(stream_depleted)
       end
     end
   end

@@ -1,11 +1,11 @@
-require_relative '../../automated_init'
+require_relative '../../../automated_init'
 
 context "Iterator" do
   context "Next" do
     count = 3
     get = Controls::Get.example(batch_size: 2, count: count)
 
-    iterator = Controls::Iterator.example(stream_name: 'some_stream-some_id', position: 1)
+    iterator = Controls::Iterator.example(stream_name: 'some_stream-some_id')
     iterator.get = get
 
     batch = []
@@ -16,7 +16,7 @@ context "Iterator" do
     end
 
     test "Gets each message" do
-      assert(batch.length == count - 1)
+      assert(batch.length == count)
     end
   end
 end

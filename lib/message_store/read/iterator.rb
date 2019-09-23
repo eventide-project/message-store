@@ -92,7 +92,13 @@ module MessageStore
       def resupply
         logger.trace { "Resupplying batch (Current Batch Length: #{(batch &.length).inspect})" }
 
-        batch = get_batch
+##
+        batch = []
+        unless stream_depleted?
+          batch = get_batch
+        end
+##
+
         reset(batch)
 
         logger.debug { "Batch resupplied (Next Batch Length: #{(batch &.length).inspect})" }
@@ -162,12 +168,25 @@ module MessageStore
         false
       end
 
+##
+      def batch_initialized?
+        !batch.nil?
+      end
+##
+
       def stream_depleted?
-        if (batch &.length || -1) < batch_size
-          logger.debug { "Source is depleted (Batch Length: #{batch &.length || '(none)'}, Batch Size: #{batch_size})" }
+        if !batch_initialized?
+          logger.debug { "Stream is not depleted (Batch Length: (batch is nil), Batch Size: #{batch_size})" }
+          return false
+        end
+
+        if batch.length < batch_size
+pp "!!! Stream Depleted"
+          logger.debug { "Stream is depleted (Batch Length: #{batch.length}, Batch Size: #{batch_size})" }
           return true
         end
 
+        logger.debug { "Stream is not depleted (Batch Length: #{batch.length || '(none)'}, Batch Size: #{batch_size})" }
         false
       end
 
