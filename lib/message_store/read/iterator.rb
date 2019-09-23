@@ -95,7 +95,7 @@ module MessageStore
       end
 
       def next_batch_starting_position
-        if !batch_initialized?
+        if not batch_initialized?
           logger.debug { "Batch is not initialized (Next batch starting position: #{starting_position.inspect})" }
           return starting_position
         end
@@ -125,11 +125,11 @@ module MessageStore
       end
 
       def batch_initialized?
-        !batch.nil?
+        not batch.nil?
       end
 
       def batch_depleted?
-        if !batch_initialized?
+        if not batch_initialized?
           logger.debug { "Batch is depleted (Batch is not initialized)" }
           return true
         end
@@ -149,7 +149,7 @@ module MessageStore
       end
 
       def stream_depleted?
-        if !batch_initialized?
+        if not batch_initialized?
           logger.debug { "Stream is not depleted (Batch Length: (batch is nil), Batch Size: #{batch_size})" }
           return false
         end
