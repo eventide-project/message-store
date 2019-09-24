@@ -1,16 +1,18 @@
 require_relative '../../../automated_init'
 
 context "Iterator" do
-  context "Batch Depleted" do
-    context "Batch in Empty" do
-      iterator = Controls::Iterator.example
+  context "Batch Depletion" do
+    context "Depleted" do
+      context "Batch in Empty" do
+        iterator = Controls::Iterator.example
 
-      iterator.batch = []
+        iterator.batch = []
 
-      batch_depleted = iterator.batch_depleted?
+        batch_depleted = iterator.batch_depleted?
 
-      test "Batch is depleted" do
-        assert(batch_depleted)
+        test "Batch is depleted" do
+          assert(batch_depleted)
+        end
       end
     end
   end
