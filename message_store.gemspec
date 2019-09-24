@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-message_store'
-  s.version = '1.0.1.1'
+  s.version = '1.0.1.2'
   s.summary = 'Common primitives for platform-specific message store implementations'
   s.description = ' '
 
