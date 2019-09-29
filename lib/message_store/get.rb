@@ -40,6 +40,7 @@ module MessageStore
         logger.debug(tag: :data) { "Position: #{position.inspect}" }
         logger.debug(tag: :data) { "Batch Size: #{batch_size.inspect}" }
 
+## Specialized get will replace this with polymorphism
         unless self.class.category?(stream_name)
           index = (items.index { |i| i.position >= position })
         else
