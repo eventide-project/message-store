@@ -20,6 +20,7 @@ require 'message_store/stream_name'
 require 'message_store/log'
 
 require 'message_store/get'
+require 'message_store/get/substitute'
 require 'message_store/get/last'
 require 'message_store/get/last/substitute'
 require 'message_store/read/iterator'

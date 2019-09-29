@@ -5,7 +5,9 @@ context "Iterator" do
     count = 3
     get = Controls::Get.example(batch_size: 2, count: count)
 
-    iterator = Controls::Iterator.example(stream_name: 'some_stream')
+## Iterator no longer takes stream namer
+##    iterator = Controls::Iterator.example(stream_name: 'some_stream')
+    iterator = Controls::Iterator.example
     iterator.get = get
 
     batch = []

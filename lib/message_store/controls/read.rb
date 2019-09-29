@@ -3,7 +3,17 @@ module MessageStore
     module Read
       def self.example(stream_name: nil)
         stream_name ||= StreamName.example
-        Example.build(stream_name)
+
+        iterator = Iterator.example
+        get = Get.example(stream_name: stream_name)
+
+        iterator.get = get
+
+        read = Example.build(stream_name)
+
+        read.iterator = iterator
+
+        read
       end
 
       class Example

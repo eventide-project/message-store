@@ -177,7 +177,8 @@ module MessageStore
         ## initializer :stream_name
 
         def self.build()
-          new('some_stream_name')
+##          new('some_stream_name')
+          new
         end
       end
     end

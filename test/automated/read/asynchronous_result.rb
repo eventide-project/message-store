@@ -4,6 +4,9 @@ context "Read" do
   context "Asynchronous Result" do
     reader = Controls::Read.example
 
+##
+# pp reader.iterator.get
+
     res = reader.() { }
 
     test "Returns a result that fails if actuated" do
