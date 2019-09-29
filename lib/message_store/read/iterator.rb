@@ -13,7 +13,9 @@ module MessageStore
 
           dependency :get, Get
 
-          initializer :stream_name
+## iterator no longer passes stream name to get actuator
+## get already has stream name as build arg
+##          initializer :stream_name
 
           abstract :last_position
         end
@@ -36,18 +38,22 @@ module MessageStore
       end
 
       module Build
-        def build(stream_name, position: nil)
-          new(stream_name).tap do |instance|
+##        def build(stream_name, position: nil)
+##          new(stream_name).tap do |instance|
+        def build(position=nil)
+          new.tap do |instance|
             instance.starting_position = position
-            Log.get(self).debug { "Built Iterator (Stream Name: #{stream_name}, Starting Position: #{position.inspect})" }
+            Log.get(self).debug { "Built Iterator (Starting Position: #{position.inspect})" }
           end
         end
       end
 
       module Configure
-        def configure(receiver, stream_name, attr_name: nil, position: nil)
+##        def configure(receiver, stream_name, attr_name: nil, position: nil)
+        def configure(receiver, position=nil, attr_name: nil)
           attr_name ||= :iterator
-          instance = build(stream_name, position: position)
+##          instance = build(stream_name, position: position)
+          instance = build(position)
           receiver.public_send "#{attr_name}=", instance
         end
       end
@@ -87,7 +93,9 @@ module MessageStore
 
         logger.trace "Getting batch (Position: #{position.inspect})"
 
-        batch = get.(stream_name, position: position)
+## No longer actuated with stream_name
+        ## batch = get.(stream_name, position: position)
+        batch = get.(position)
 
         logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
 
@@ -166,7 +174,7 @@ module MessageStore
       class Substitute
         include Read::Iterator
 
-        initializer :stream_name
+        ## initializer :stream_name
 
         def self.build()
           new('some_stream_name')
