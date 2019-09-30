@@ -10,7 +10,7 @@ module MessageStore
       end
 
       class Example
-        include MessageStore::Get::Last
+        include MessageStore::Get::Stream::Last
 
         attr_writer :session
         def session
