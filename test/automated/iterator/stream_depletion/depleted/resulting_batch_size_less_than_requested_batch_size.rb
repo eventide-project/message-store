@@ -5,7 +5,8 @@ context "Iterator" do
     context "Depleted" do
       context "Resulting Batch Size is Less Than the Requested Batch Size" do
         get = Controls::Get.example(batch_size: 2)
-        iterator = Controls::Iterator.example
+
+        iterator = Read::Iterator.build
         iterator.get = get
 
         iterator.batch = [1]

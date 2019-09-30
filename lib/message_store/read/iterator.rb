@@ -1,19 +1,12 @@
 module MessageStore
   module Read
-    module Iterator
-      def self.included(cls)
-        cls.class_exec do
-          include Dependency
-          include Initializer
-          include Virtual
-          include Log::Dependency
+    class Iterator
+      include Dependency
+      include Initializer
+      include Virtual
+      include Log::Dependency
 
-          extend Build
-          extend Configure
-
-          dependency :get, Get
-        end
-      end
+      dependency :get, Get
 
       attr_accessor :batch
 
@@ -31,21 +24,17 @@ module MessageStore
         get.batch_size
       end
 
-      module Build
-        def build(position=nil)
-          new.tap do |instance|
-            instance.starting_position = position
-            Log.get(self).debug { "Built Iterator (Starting Position: #{position.inspect})" }
-          end
+      def self.build(position=nil)
+        new.tap do |instance|
+          instance.starting_position = position
+          Log.get(self).debug { "Built Iterator (Starting Position: #{position.inspect})" }
         end
       end
 
-      module Configure
-        def configure(receiver, position=nil, attr_name: nil)
-          attr_name ||= :iterator
-          instance = build(position)
-          receiver.public_send "#{attr_name}=", instance
-        end
+      def self.configure(receiver, position=nil, attr_name: nil)
+        attr_name ||= :iterator
+        instance = build(position)
+        receiver.public_send "#{attr_name}=", instance
       end
 
       def next
@@ -163,8 +152,9 @@ module MessageStore
         false
       end
 
-      class Substitute
-        include Read::Iterator
+## Need not exist?
+      class Substitute < Iterator
+##        include Read::Iterator
 
         def self.build()
           new

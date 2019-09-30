@@ -4,7 +4,7 @@ context "Iterator" do
   context "Batch Depletion" do
     context "Not Depleted" do
       context "Batch Index is Less Than the Batch Length" do
-        iterator = Controls::Iterator.example
+        iterator = Read::Iterator.build
 
         iterator.batch = [1, 11]
         iterator.batch_index = 1

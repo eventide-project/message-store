@@ -7,7 +7,7 @@ context "Iterator" do
     category = Controls::Category.example
     get = Controls::Get.example(stream_name: category, batch_size: 2, count: count, global_position_offset: -> (x) { 2 + x ** 2 })
 
-    iterator = Controls::Iterator.example(position: 3)
+    iterator = Read::Iterator.build(3)
     iterator.get = get
 
     batch = []

@@ -4,7 +4,7 @@ context "Iterator" do
   context "Batch Depletion" do
     context "Depleted" do
       context "Batch in Nil" do
-        iterator = Controls::Iterator.example
+        iterator = Read::Iterator.build
 
         iterator.batch = nil
 

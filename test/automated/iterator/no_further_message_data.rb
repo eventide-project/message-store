@@ -6,7 +6,7 @@ context "Iterator" do
       count = 3
       get = Controls::Get.example(batch_size: 2, count: count)
 
-      iterator = Controls::Iterator.example
+      iterator = Read::Iterator.build
       iterator.get = get
 
       count.times { iterator.next }

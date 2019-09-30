@@ -24,6 +24,7 @@ module MessageStore
     module Build
       def build(stream_name, position: nil, batch_size: nil, session: nil, **arguments)
         new(stream_name, position, batch_size).tap do |instance|
+          Iterator.configure(instance, position)
           instance.configure(session: session, **arguments)
         end
       end

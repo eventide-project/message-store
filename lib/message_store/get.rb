@@ -8,9 +8,9 @@ module MessageStore
         include Log::Dependency
 
         abstract :call
-        abstract :last_position
         abstract :stream_name
         abstract :batch_size
+        abstract :last_position
       end
     end
   end
