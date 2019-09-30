@@ -12,12 +12,6 @@ module MessageStore
           extend Configure
 
           dependency :get, Get
-
-## iterator no longer passes stream name to get actuator
-## get already has stream name as build arg
-##          initializer :stream_name
-
-          abstract :last_position
         end
       end
 
@@ -38,8 +32,6 @@ module MessageStore
       end
 
       module Build
-##        def build(stream_name, position: nil)
-##          new(stream_name).tap do |instance|
         def build(position=nil)
           new.tap do |instance|
             instance.starting_position = position
@@ -49,10 +41,8 @@ module MessageStore
       end
 
       module Configure
-##        def configure(receiver, stream_name, attr_name: nil, position: nil)
         def configure(receiver, position=nil, attr_name: nil)
           attr_name ||= :iterator
-##          instance = build(stream_name, position: position)
           instance = build(position)
           receiver.public_send "#{attr_name}=", instance
         end
@@ -93,8 +83,6 @@ module MessageStore
 
         logger.trace "Getting batch (Position: #{position.inspect})"
 
-## No longer actuated with stream_name
-        ## batch = get.(stream_name, position: position)
         batch = get.(position)
 
         logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
@@ -113,6 +101,10 @@ module MessageStore
         logger.debug { "End of batch (Next starting position: #{next_position}, Previous Position: #{previous_position})" }
 
         next_position
+      end
+
+      def last_position
+        get.last_position(batch)
       end
 
       def reset(batch)
@@ -174,10 +166,7 @@ module MessageStore
       class Substitute
         include Read::Iterator
 
-        ## initializer :stream_name
-
         def self.build()
-##          new('some_stream_name')
           new
         end
       end

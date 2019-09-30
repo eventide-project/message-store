@@ -7,11 +7,6 @@ context "Iterator" do
     category = Controls::Category.example
     get = Controls::Get.example(stream_name: category, batch_size: 2, count: count, global_position_offset: -> (x) { 2 + x ** 2 })
 
-# get.stream_name = Controls::Category.example
-
-
-## Iterator no longer takes stream name
-##    iterator = Controls::Iterator.example(stream_name: 'some_stream', position: 3)
     iterator = Controls::Iterator.example(position: 3)
     iterator.get = get
 

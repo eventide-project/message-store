@@ -6,13 +6,6 @@ module MessageStore
 
       include Get
 
-##      initializer :stream_name, na(:batch_size), :condition
-
-## Should not be needed
-      # def stream_name
-      #   @stream_name ||= 'someStream-123'
-      # end
-
       attr_accessor :stream_name
 
       def batch_size
@@ -24,29 +17,21 @@ module MessageStore
         @items ||= []
       end
 
-## How can this be built?
-## Substitute requires parameterless build
-## How does stream name get in-play when using substitute?
-      # def self.build(stream_name, batch_size: nil, session: nil, condition: nil)
-      #   new(stream_name, batch_size, condition)
-      # end
-
       def self.build
         new
       end
 
-      # def call(position: nil)
       def call(position)
         position ||= 0
 
-        logger.trace(tag: :get) { "Getting (Position: #{position}, Batch Size: #{batch_size}, Stream Name: #{stream_name.inspect})" }
+        logger.trace(tag: :get) { "Getting (Position: #{position}, Stream Name: #{stream_name.inspect}, Batch Size: #{batch_size})" }
 
         logger.debug(tag: :data) { "Items: \n#{items.pretty_inspect}" }
         logger.debug(tag: :data) { "Position: #{position.inspect}" }
         logger.debug(tag: :data) { "Batch Size: #{batch_size.inspect}" }
 
-## Specialized get will replace this with polymorphism
-##        unless self.class.category?(stream_name)
+## No specialized Gets for substitute
+## So, complexity has to be here
         unless self.class.category_stream?(stream_name)
           index = (items.index { |i| i.position >= position })
         else
@@ -68,6 +53,14 @@ module MessageStore
         logger.info(tag: :get) { "Finished getting (Position: #{position}, Stream Name: #{stream_name.inspect})" }
 
         items
+      end
+
+      def last_position(batch)
+        if self.class.category_stream?(stream_name)
+          batch.last.global_position
+        else
+          batch.last.position
+        end
       end
 
       def self.category_stream?(stream_name)
