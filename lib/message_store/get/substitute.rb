@@ -30,8 +30,9 @@ module MessageStore
         logger.debug(tag: :data) { "Position: #{position.inspect}" }
         logger.debug(tag: :data) { "Batch Size: #{batch_size.inspect}" }
 
-## No specialized Gets for substitute
-## So, complexity has to be here
+        # No specialized Gets for substitute
+        # Complexity has to be inline for the control
+        # Scott, Tue Oct 1 2019
         unless self.class.category_stream?(stream_name)
           index = (items.index { |i| i.position >= position })
         else
