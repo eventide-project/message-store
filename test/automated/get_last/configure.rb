@@ -36,7 +36,7 @@ context "Get Last" do
       get_last = receiver.some_attr
 
       test do
-        assert(get_last.is_a?(Get::Last))
+        assert(get_last.is_a?(Get::Stream::Last))
       end
     end
   end

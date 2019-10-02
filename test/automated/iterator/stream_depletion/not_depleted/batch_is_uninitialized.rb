@@ -5,7 +5,8 @@ context "Iterator" do
     context "Not Depleted" do
       context "Batch is Uninitialized" do
         get = Controls::Get.example(batch_size: 2)
-        iterator = Controls::Iterator.example
+
+        iterator = Read::Iterator.build
         iterator.get = get
 
         iterator.batch = nil

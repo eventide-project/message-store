@@ -1,23 +1,12 @@
 module MessageStore
   module Read
-    module Iterator
-      def self.included(cls)
-        cls.class_exec do
-          include Dependency
-          include Initializer
-          include Virtual
-          include Log::Dependency
+    class Iterator
+      include Dependency
+      include Initializer
+      include Virtual
+      include Log::Dependency
 
-          extend Build
-          extend Configure
-
-          dependency :get, Get
-
-          initializer :stream_name
-
-          abstract :last_position
-        end
-      end
+      dependency :get, Get
 
       attr_accessor :batch
 
@@ -35,21 +24,17 @@ module MessageStore
         get.batch_size
       end
 
-      module Build
-        def build(stream_name, position: nil)
-          new(stream_name).tap do |instance|
-            instance.starting_position = position
-            Log.get(self).debug { "Built Iterator (Stream Name: #{stream_name}, Starting Position: #{position.inspect})" }
-          end
+      def self.build(position=nil)
+        new.tap do |instance|
+          instance.starting_position = position
+          Log.get(self).debug { "Built Iterator (Starting Position: #{position.inspect})" }
         end
       end
 
-      module Configure
-        def configure(receiver, stream_name, attr_name: nil, position: nil)
-          attr_name ||= :iterator
-          instance = build(stream_name, position: position)
-          receiver.public_send "#{attr_name}=", instance
-        end
+      def self.configure(receiver, position=nil, attr_name: nil)
+        attr_name ||= :iterator
+        instance = build(position)
+        receiver.public_send "#{attr_name}=", instance
       end
 
       def next
@@ -87,7 +72,7 @@ module MessageStore
 
         logger.trace "Getting batch (Position: #{position.inspect})"
 
-        batch = get.(stream_name, position: position)
+        batch = get.(position)
 
         logger.debug { "Finished getting batch (Count: #{batch.length}, Position: #{position.inspect})" }
 
@@ -105,6 +90,10 @@ module MessageStore
         logger.debug { "End of batch (Next starting position: #{next_position}, Previous Position: #{previous_position})" }
 
         next_position
+      end
+
+      def last_position
+        get.last_position(batch)
       end
 
       def reset(batch)
@@ -163,13 +152,12 @@ module MessageStore
         false
       end
 
-      class Substitute
-        include Read::Iterator
-
-        initializer :stream_name
+## Need not exist?
+      class Substitute < Iterator
+##        include Read::Iterator
 
         def self.build()
-          new('some_stream_name')
+          new
         end
       end
     end

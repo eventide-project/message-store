@@ -5,7 +5,7 @@ context "Iterator" do
     count = 3
     get = Controls::Get.example(batch_size: 2, count: count)
 
-    iterator = Controls::Iterator.example(stream_name: 'some_stream')
+    iterator = Read::Iterator.build
     iterator.get = get
 
     batch = []

@@ -6,7 +6,7 @@ context "Get Last" do
 
     context "Not Specialized" do
       cls = Class.new do
-        include MessageStore::Get::Last
+        include MessageStore::Get::Stream::Last
       end
 
       test "Raises virtual method error" do
@@ -20,7 +20,7 @@ context "Get Last" do
       specialized_method_executed = false
 
       cls = Class.new do
-        include MessageStore::Get::Last
+        include MessageStore::Get::Stream::Last
 
         define_method(:call) do |_stream_name|
           specialized_method_executed = true if _stream_name == stream_name

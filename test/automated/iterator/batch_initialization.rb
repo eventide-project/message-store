@@ -3,7 +3,7 @@ require_relative '../automated_init'
 context "Iterator" do
   context "Batch Initialization" do
     context "Batch is Nil" do
-      iterator = Controls::Iterator.example
+      iterator = Read::Iterator.build
       iterator.batch = nil
 
       test "Batch is not initialized" do
@@ -12,7 +12,7 @@ context "Iterator" do
     end
 
     context "Batch is Not Nil" do
-      iterator = Controls::Iterator.example
+      iterator = Read::Iterator.build
       iterator.batch = :something
 
       test "Batch is initialized" do
