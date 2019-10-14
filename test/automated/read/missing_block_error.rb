@@ -5,8 +5,8 @@ context "Read" do
     reader = Controls::Read.example
 
     test "Is incorrect" do
-      assert proc { reader.() } do
-        raises_error? Read::Error
+      assert_raises Read::Error do
+        reader.()
       end
     end
   end

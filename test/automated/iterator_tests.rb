@@ -1,6 +1,5 @@
-require_relative 'automated_init.rb'
+ENV['TEST_BENCH_EXCLUDE_PATTERN'] ||= '/_|sketch|(_init\.rb|_tests\.rb)\z'
 
-TestBench::Runner.(
-  'iterator/**/*.rb',
-  exclude_pattern: %r{\/_|sketch|(_init\.rb|_tests\.rb)\z}
-) or exit 1
+require_relative './automated_init'
+
+TestBench::CLI::Run.('test/automated/iterator')
