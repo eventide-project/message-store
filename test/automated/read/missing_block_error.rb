@@ -5,7 +5,7 @@ context "Read" do
     reader = Controls::Read.example
 
     test "Is incorrect" do
-      assert_raises Read::Error do
+      assert_raises(Read::Error) do
         reader.()
       end
     end
