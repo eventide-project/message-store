@@ -70,6 +70,7 @@ module MessageStore
         message_data = iterator.next
 
         break if message_data.nil?
+        logger.debug(tags: [:data, :message_data]) { message_data.pretty_inspect }
 
         action.(message_data)
       end
