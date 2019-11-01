@@ -14,8 +14,8 @@ module MessageStore
       '+'
     end
 
-    def self.compound_id_delimiter
-      type_delimiter
+    class << self
+      alias :compound_id_delimiter :type_delimiter
     end
 
     def self.stream_name(category_name, id=nil, type: nil, types: nil)
