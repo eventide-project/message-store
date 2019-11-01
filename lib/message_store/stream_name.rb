@@ -14,6 +14,10 @@ module MessageStore
       '+'
     end
 
+    def self.compound_id_delimiter
+      type_delimiter
+    end
+
     def self.stream_name(category_name, id=nil, type: nil, types: nil)
       if category_name == nil
         raise Error, "Category name must not be omitted from stream name"
@@ -27,6 +31,13 @@ module MessageStore
 
       stream_name = category_name
       stream_name = "#{stream_name}#{category_delimiter}#{type_list}" unless type_list.nil?
+
+      if not id.nil?
+        if id.is_a?(Array)
+          id = id.join(compound_id_delimiter)
+        end
+      end
+
       stream_name = "#{stream_name}#{id_delimiter}#{id}" unless id.nil?
 
       stream_name
