@@ -67,12 +67,16 @@ module MessageStore
       !stream_name.include?(id_delimiter)
     end
 
-    def self.get_type_list(stream_name)
+    def self.get_type(stream_name)
       return nil unless stream_name.include?(category_delimiter)
 
       category = get_category(stream_name)
 
       category.split(category_delimiter)[1]
+    end
+
+    class << self
+      alias :get_type_list :get_type
     end
 
     def self.get_types(stream_name)
