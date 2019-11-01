@@ -67,7 +67,7 @@ module MessageStore
       !stream_name.include?(id_delimiter)
     end
 
-    def self.get_type(stream_name)
+    def self.get_category_type(stream_name)
       return nil unless stream_name.include?(category_delimiter)
 
       category = get_category(stream_name)
@@ -75,12 +75,20 @@ module MessageStore
       category.split(category_delimiter)[1]
     end
 
-    def self.get_types(stream_name)
+    def self.get_type(*args)
+      get_category_type(*args)
+    end
+
+    def self.get_category_types(stream_name)
       type_list = get_type(stream_name)
 
       return [] if type_list.nil?
 
       type_list.split(type_delimiter)
+    end
+
+    def self.get_types(*args)
+      get_category_types(*args)
     end
 
     def self.get_entity_name(stream_name)
