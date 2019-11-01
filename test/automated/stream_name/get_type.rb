@@ -5,7 +5,7 @@ context "Stream Name" do
     context "Many Types" do
       stream_name = "someStream:someType+someOtherType"
 
-      type_list = StreamName.get_type_list(stream_name)
+      type_list = StreamName.get_type(stream_name)
 
       test "Types are the list of elements following a colon separator" do
         assert(type_list == 'someType+someOtherType')
@@ -15,7 +15,7 @@ context "Stream Name" do
     context "ID and Many Types" do
       stream_name = "someStream:someType+someOtherType-someID"
 
-      type_list = StreamName.get_type_list(stream_name)
+      type_list = StreamName.get_type(stream_name)
 
       test "Types are the list of elements following a colon separator and preceding the ID" do
         assert(type_list == 'someType+someOtherType')
@@ -25,7 +25,7 @@ context "Stream Name" do
     context "Single Type" do
       stream_name = "someStream:someType"
 
-      type_list = StreamName.get_type_list(stream_name)
+      type_list = StreamName.get_type(stream_name)
 
       test "Types are the list of elements following a colon separator and preceding the ID" do
         assert(type_list == 'someType')
@@ -35,7 +35,7 @@ context "Stream Name" do
     context "No type list in the stream name" do
       stream_name = "someStream"
 
-      type_list = StreamName.get_type_list(stream_name)
+      type_list = StreamName.get_type(stream_name)
 
       test "No types" do
         assert(type_list.nil?)
