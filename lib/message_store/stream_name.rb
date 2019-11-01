@@ -51,6 +51,10 @@ module MessageStore
       split(stream_name)[1]
     end
 
+    class << self
+      alias :get_id_list :get_id
+    end
+
     def self.get_ids(stream_name)
       ids = get_id(stream_name)
 
