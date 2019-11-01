@@ -2,18 +2,34 @@ require_relative '../automated_init'
 
 context "Stream Name" do
   context "Get IDs" do
-    test "Is the part of a stream name after the first dash" do
+    context "Compound ID" do
       id = 'some_id+some_other_id'
       stream_name = "someCategory-#{id}"
 
       stream_ids = StreamName.get_ids(stream_name)
 
-      assert(stream_ids == ['some_id', 'some_other_id'])
+      test "Array of compound IDs" do
+        assert(stream_ids == ['some_id', 'some_other_id'])
+      end
     end
 
-    test "Is empty array if there is no ID part in the stream name" do
+    context "Single ID" do
+      id = 'some_id'
+      stream_name = "someCategory-#{id}"
+
+      stream_ids = StreamName.get_ids(stream_name)
+
+      test "Array with single ID" do
+        assert(stream_ids == ['some_id'])
+      end
+    end
+
+    context "No ID" do
       stream_ids = StreamName.get_ids('someStream')
-      assert(stream_ids == [])
+
+      test "Empty array" do
+        assert(stream_ids == [])
+      end
     end
   end
 end
