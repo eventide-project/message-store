@@ -51,10 +51,6 @@ module MessageStore
       split(stream_name)[1]
     end
 
-    class << self
-      alias :get_id_list :get_id
-    end
-
     def self.get_ids(stream_name)
       ids = get_id(stream_name)
 
@@ -79,12 +75,8 @@ module MessageStore
       category.split(category_delimiter)[1]
     end
 
-    class << self
-      alias :get_type_list :get_type
-    end
-
     def self.get_types(stream_name)
-      type_list = get_type_list(stream_name)
+      type_list = get_type(stream_name)
 
       return [] if type_list.nil?
 
