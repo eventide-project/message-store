@@ -14,6 +14,10 @@ module MessageStore
       '+'
     end
 
+    class << self
+      alias :compound_id_delimiter :type_delimiter
+    end
+
     def self.stream_name(category_name, id=nil, type: nil, types: nil)
       if category_name == nil
         raise Error, "Category name must not be omitted from stream name"
@@ -27,6 +31,13 @@ module MessageStore
 
       stream_name = category_name
       stream_name = "#{stream_name}#{category_delimiter}#{type_list}" unless type_list.nil?
+
+      if not id.nil?
+        if id.is_a?(Array)
+          id = id.join(compound_id_delimiter)
+        end
+      end
+
       stream_name = "#{stream_name}#{id_delimiter}#{id}" unless id.nil?
 
       stream_name
@@ -40,6 +51,14 @@ module MessageStore
       split(stream_name)[1]
     end
 
+    def self.get_ids(stream_name)
+      ids = get_id(stream_name)
+
+      return [] if ids.nil?
+
+      ids.split(compound_id_delimiter)
+    end
+
     def self.get_category(stream_name)
       split(stream_name)[0]
     end
@@ -48,7 +67,7 @@ module MessageStore
       !stream_name.include?(id_delimiter)
     end
 
-    def self.get_type_list(stream_name)
+    def self.get_category_type(stream_name)
       return nil unless stream_name.include?(category_delimiter)
 
       category = get_category(stream_name)
@@ -56,12 +75,20 @@ module MessageStore
       category.split(category_delimiter)[1]
     end
 
-    def self.get_types(stream_name)
-      type_list = get_type_list(stream_name)
+    def self.get_type(*args)
+      get_category_type(*args)
+    end
+
+    def self.get_category_types(stream_name)
+      type_list = get_type(stream_name)
 
       return [] if type_list.nil?
 
       type_list.split(type_delimiter)
+    end
+
+    def self.get_types(*args)
+      get_category_types(*args)
     end
 
     def self.get_entity_name(stream_name)

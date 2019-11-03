@@ -17,6 +17,14 @@ context "Stream Name" do
     end
   end
 
+  context "Category and Compound ID" do
+    stream_name = StreamName.stream_name('someCategory', ['some_id', 'some_other_id'])
+
+    test "Stream name is the category and the ID" do
+      assert(stream_name == 'someCategory-some_id+some_other_id')
+    end
+  end
+
   context "Category and Type" do
     stream_name = StreamName.stream_name('someCategory', type: 'someType')
 
