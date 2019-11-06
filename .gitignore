@@ -1,17 +1,8 @@
-.DS_store
 .bundle/
-.ruby-version
-.ruby-gemset
-.rvmrc
 Gemfile.lock
 *.log
 *.gem
 gems
-gems_backup
-*scratch*
-loader.rb
-postgres
-postgres.*
 
 lib/message_store/event_store
 lib/message_store/event_store.rb
