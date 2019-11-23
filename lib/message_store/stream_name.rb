@@ -2,20 +2,20 @@ module MessageStore
   module StreamName
     Error = Class.new(RuntimeError)
 
-    def self.id_delimiter
+    def self.id_separator
       '-'
     end
 
-    def self.category_delimiter
-      ':'
-    end
-
-    def self.type_delimiter
+    def self.compound_id_separator
       '+'
     end
 
-    class << self
-      alias :compound_id_delimiter :type_delimiter
+    def self.category_separator
+      ':'
+    end
+
+    def self.type_separator
+      '+'
     end
 
     def self.stream_name(category_name, id=nil, type: nil, types: nil)
@@ -27,24 +27,24 @@ module MessageStore
       types.unshift(type) unless type.nil?
 
       type_list = nil
-      type_list = types.join(type_delimiter) unless types.empty?
+      type_list = types.join(type_separator) unless types.empty?
 
       stream_name = category_name
-      stream_name = "#{stream_name}#{category_delimiter}#{type_list}" unless type_list.nil?
+      stream_name = "#{stream_name}#{category_separator}#{type_list}" unless type_list.nil?
 
       if not id.nil?
         if id.is_a?(Array)
-          id = id.join(compound_id_delimiter)
+          id = id.join(compound_id_separator)
         end
       end
 
-      stream_name = "#{stream_name}#{id_delimiter}#{id}" unless id.nil?
+      stream_name = "#{stream_name}#{id_separator}#{id}" unless id.nil?
 
       stream_name
     end
 
     def self.split(stream_name)
-      stream_name.split(id_delimiter, 2)
+      stream_name.split(id_separator, 2)
     end
 
     def self.get_id(stream_name)
@@ -56,7 +56,7 @@ module MessageStore
 
       return [] if ids.nil?
 
-      ids.split(compound_id_delimiter)
+      ids.split(compound_id_separator)
     end
 
     def self.get_category(stream_name)
@@ -64,15 +64,15 @@ module MessageStore
     end
 
     def self.category?(stream_name)
-      !stream_name.include?(id_delimiter)
+      !stream_name.include?(id_separator)
     end
 
     def self.get_category_type(stream_name)
-      return nil unless stream_name.include?(category_delimiter)
+      return nil unless stream_name.include?(category_separator)
 
       category = get_category(stream_name)
 
-      category.split(category_delimiter)[1]
+      category.split(category_separator)[1]
     end
 
     def self.get_type(*args)
@@ -84,7 +84,7 @@ module MessageStore
 
       return [] if type_list.nil?
 
-      type_list.split(type_delimiter)
+      type_list.split(type_separator)
     end
 
     def self.get_types(*args)
@@ -92,7 +92,7 @@ module MessageStore
     end
 
     def self.get_entity_name(stream_name)
-      get_category(stream_name).split(category_delimiter)[0]
+      get_category(stream_name).split(category_separator)[0]
     end
   end
 end
