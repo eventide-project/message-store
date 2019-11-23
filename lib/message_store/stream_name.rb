@@ -59,6 +59,14 @@ module MessageStore
       ids.split(compound_id_separator)
     end
 
+    def self.get_cardinal_id(stream_name)
+      id = get_id(stream_name)
+
+      return nil if id.nil?
+
+      id.split(compound_id_separator).first
+    end
+
     def self.get_category(stream_name)
       split(stream_name)[0]
     end
