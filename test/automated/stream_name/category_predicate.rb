@@ -1,7 +1,7 @@
 require_relative '../automated_init'
 
 context "Stream Name" do
-  context "Is Category" do
+  context "Category Predicate" do
     category = 'someStream'
 
     context "Stream Name Contains a Dash (-)" do

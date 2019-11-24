@@ -18,7 +18,7 @@ module MessageStore
       '+'
     end
 
-    def self.stream_name(category_name, id=nil, type: nil, types: nil)
+    def self.stream_name(category_name, stream_id=nil, cardinal_id: nil, id: nil, ids: nil, type: nil, types: nil)
       if category_name == nil
         raise Error, "Category name must not be omitted from stream name"
       end
@@ -32,13 +32,39 @@ module MessageStore
       stream_name = category_name
       stream_name = "#{stream_name}#{category_separator}#{type_list}" unless type_list.nil?
 
-      if not id.nil?
-        if id.is_a?(Array)
-          id = id.join(compound_id_separator)
+      id_list = []
+
+      id_list << cardinal_id if not cardinal_id.nil?
+
+      if not stream_id.nil?
+        if stream_id.is_a?(Array)
+          id_list.concat(stream_id)
+        else
+          id_list << stream_id
         end
       end
 
-      stream_name = "#{stream_name}#{id_separator}#{id}" unless id.nil?
+      if not id.nil?
+        if id.is_a?(Array)
+          id_list.concat(id)
+        else
+          id_list << id
+        end
+      end
+
+      if not ids.nil?
+        if ids.is_a?(Array)
+          id_list.concat(ids)
+        else
+          id_list << ids
+        end
+      end
+
+      composed_id = nil
+      if not id_list.empty?
+        composed_id = id_list.join(compound_id_separator)
+        stream_name = "#{stream_name}#{id_separator}#{composed_id}"
+      end
 
       stream_name
     end
