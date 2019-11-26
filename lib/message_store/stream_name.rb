@@ -10,60 +10,42 @@ module MessageStore
       '+'
     end
 
-    def self.category_separator
+    def self.category_type_separator
       ':'
     end
 
-    def self.type_separator
+    def self.compound_type_separator
       '+'
     end
 
-    def self.stream_name(category_name, stream_id=nil, cardinal_id: nil, id: nil, ids: nil, type: nil, types: nil)
-      if category_name == nil
-        raise Error, "Category name must not be omitted from stream name"
+    def self.stream_name(category, stream_id=nil, cardinal_id: nil, id: nil, ids: nil, type: nil, types: nil)
+      if category == nil
+        raise Error, "Category must not be omitted from stream name"
       end
 
-      types = Array(types)
-      types.unshift(type) unless type.nil?
+      stream_name = category
 
-      type_list = nil
-      type_list = types.join(type_separator) unless types.empty?
+      type_list = []
+      type_list.concat(Array(type))
+      type_list.concat(Array(types))
 
-      stream_name = category_name
-      stream_name = "#{stream_name}#{category_separator}#{type_list}" unless type_list.nil?
+      type_part = type_list.join(compound_type_separator)
+
+      if not type_part.empty?
+        stream_name = "#{stream_name}#{category_type_separator}#{type_part}"
+      end
 
       id_list = []
-
       id_list << cardinal_id if not cardinal_id.nil?
 
-      if not stream_id.nil?
-        if stream_id.is_a?(Array)
-          id_list.concat(stream_id)
-        else
-          id_list << stream_id
-        end
-      end
+      id_list.concat(Array(stream_id))
+      id_list.concat(Array(id))
+      id_list.concat(Array(ids))
 
-      if not id.nil?
-        if id.is_a?(Array)
-          id_list.concat(id)
-        else
-          id_list << id
-        end
-      end
+      id_part = id_list.join(compound_id_separator)
 
-      if not ids.nil?
-        if ids.is_a?(Array)
-          id_list.concat(ids)
-        else
-          id_list << ids
-        end
-      end
-
-      composed_id = nil
-      if not id_list.empty?
-        composed_id = id_list.join(compound_id_separator)
-        stream_name = "#{stream_name}#{id_separator}#{composed_id}"
+      if not id_part.empty?
+        stream_name = "#{stream_name}#{id_separator}#{id_part}"
       end
 
       stream_name
@@ -102,11 +84,11 @@ module MessageStore
     end
 
     def self.get_category_type(stream_name)
-      return nil unless stream_name.include?(category_separator)
+      return nil unless stream_name.include?(category_type_separator)
 
       category = get_category(stream_name)
 
-      category.split(category_separator)[1]
+      category.split(category_type_separator)[1]
     end
 
     def self.get_type(*args)
@@ -118,7 +100,7 @@ module MessageStore
 
       return [] if type_list.nil?
 
-      type_list.split(type_separator)
+      type_list.split(compound_type_separator)
     end
 
     def self.get_types(*args)
@@ -126,7 +108,7 @@ module MessageStore
     end
 
     def self.get_entity_name(stream_name)
-      get_category(stream_name).split(category_separator)[0]
+      get_category(stream_name).split(category_type_separator)[0]
     end
   end
 end
