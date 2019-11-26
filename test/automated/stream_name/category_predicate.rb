@@ -2,11 +2,8 @@ require_relative '../automated_init'
 
 context "Stream Name" do
   context "Category Predicate" do
-    category = 'someStream'
-
     context "Stream Name Contains a Dash (-)" do
-      id = Identifier::UUID.random
-      stream_name = "#{category}-#{id}"
+      stream_name = 'someStream-some_id'
 
       is_category = StreamName.category?(stream_name)
 
@@ -16,7 +13,9 @@ context "Stream Name" do
     end
 
     context "Stream Name Contains no Dash (-)" do
-      is_category = StreamName.category?(category)
+      stream_name = 'someStream'
+
+      is_category = StreamName.category?(stream_name)
 
       test "Is a category" do
         assert(is_category)
