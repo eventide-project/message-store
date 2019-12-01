@@ -7,6 +7,7 @@ module MessageStore
       include Get
 
       attr_accessor :stream_name
+      alias :category :stream_name
 
       def batch_size
         @batch_size ||= 1
