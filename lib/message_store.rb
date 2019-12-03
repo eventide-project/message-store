@@ -11,7 +11,6 @@ require 'async_invocation'
 
 require 'message_store/expected_version'
 require 'message_store/no_stream'
-require 'message_store/correlation'
 require 'message_store/message_data'
 require 'message_store/message_data/hash/transform'
 require 'message_store/message_data/write'
