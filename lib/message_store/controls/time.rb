@@ -48,8 +48,8 @@ module MessageStore
 
         module Raw
           def self.example(time=nil, offset_milliseconds: nil)
-            offset_milliseconds ||= Processed.offset_milliseconds
-            Clock::Controls::Time::Offset::Effective.example(offset_milliseconds, time: time, precision: ISO8601.precision)
+            offset_milliseconds ||= Effective.offset_milliseconds
+            Clock::Controls::Time::Offset::Raw.example(offset_milliseconds, time: time, precision: ISO8601.precision)
           end
         end
 
