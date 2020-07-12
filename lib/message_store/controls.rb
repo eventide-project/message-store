@@ -1,5 +1,6 @@
 require 'securerandom'
 
+require 'clock/controls'
 require 'identifier/uuid/controls'
 
 require 'message_store/controls/random_value'

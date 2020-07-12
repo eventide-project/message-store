@@ -8,51 +8,53 @@ module MessageStore
 
       module Raw
         def self.example
-          time = ::Time.parse("Jan 1 00:00:00 UTC 2000")
-          Clock::UTC.now(time)
+          Clock::Controls::Time::Raw.example
         end
       end
 
       module ISO8601
         def self.example(time=nil)
-          time ||= Raw.example
-          Clock::UTC.iso8601(time)
+          Clock::Controls::Time::ISO8601.example(time)
+        end
+
+        def self.precision
+          3
         end
       end
 
       module Processed
         def self.example(time=nil, offset_milliseconds: nil)
-          time ||= Time::Raw.example
-          time = Raw.example(time, offset_milliseconds: offset_milliseconds)
-          ISO8601.example(time)
+          offset_milliseconds ||= self.offset_milliseconds
+          Clock::Controls::Time::Offset.example(offset_milliseconds, time: time, precision: ISO8601.precision)
         end
 
         module Raw
           def self.example(time=nil, offset_milliseconds: nil)
-            time ||= Time::Raw.example
-            offset_milliseconds ||= 11
-            offset = Rational(offset_milliseconds, 1000)
-            time += offset
-            time
+            offset_milliseconds ||= Processed.offset_milliseconds
+            Clock::Controls::Time::Offset::Raw.example(offset_milliseconds, time: time, precision: ISO8601.precision)
           end
+        end
+
+        def self.offset_milliseconds
+          11
         end
       end
 
       module Effective
         def self.example(time=nil, offset_milliseconds: nil)
-          time ||= Time::Raw.example
-          time = Raw.example(time, offset_milliseconds: offset_milliseconds)
-          ISO8601.example(time)
+          offset_milliseconds ||= self.offset_milliseconds
+          Clock::Controls::Time::Offset.example(offset_milliseconds, time: time, precision: ISO8601.precision)
         end
 
         module Raw
           def self.example(time=nil, offset_milliseconds: nil)
-            time ||= Time::Raw.example
-            offset_milliseconds ||= 1
-            offset = Rational(offset_milliseconds, 1000)
-            time += offset
-            time
+            offset_milliseconds ||= Effective.offset_milliseconds
+            Clock::Controls::Time::Offset::Raw.example(offset_milliseconds, time: time, precision: ISO8601.precision)
           end
+        end
+
+        def self.offset_milliseconds
+          1
         end
       end
     end
