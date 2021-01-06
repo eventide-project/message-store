@@ -18,7 +18,7 @@ context "ID" do
 
         test "Is an error" do
           assert_raises(MessageStore::ID::Error) do
-            MessageStore::ID.get(id)
+            MessageStore::ID.id(id)
           end
         end
       end
@@ -28,7 +28,7 @@ context "ID" do
       context "Not Empty" do
         id = ['some_id', 'some_other_id']
 
-        composed_id = MessageStore::ID.get(id)
+        composed_id = MessageStore::ID.id(id)
 
         test "Composed ID is the concatenation of the list of IDs delimited by the '+'' sign" do
           assert(composed_id == 'some_id+some_other_id')
@@ -40,7 +40,7 @@ context "ID" do
 
         test "Is an error" do
           assert_raises(MessageStore::ID::Error) do
-            MessageStore::ID.get(id)
+            MessageStore::ID.id(id)
           end
         end
       end

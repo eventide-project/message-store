@@ -18,10 +18,6 @@ module MessageStore
       id
     end
 
-    def self.get(id)
-      id(id)
-    end
-
     def self.compound_id(ids)
       if ids.empty?
         raise Error, "IDs must not be omitted"
