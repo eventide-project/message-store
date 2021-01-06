@@ -11,11 +11,13 @@ require 'async_invocation'
 
 require 'message_store/expected_version'
 require 'message_store/no_stream'
+require 'message_store/id'
+require 'message_store/stream_name'
+
 require 'message_store/message_data'
 require 'message_store/message_data/hash/transform'
 require 'message_store/message_data/write'
 require 'message_store/message_data/read'
-require 'message_store/stream_name'
 
 require 'message_store/log'
 

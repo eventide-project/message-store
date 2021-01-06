@@ -7,7 +7,7 @@ module MessageStore
     end
 
     def self.compound_id_separator
-      '+'
+      ID.compound_id_separator
     end
 
     def self.category_type_separator
@@ -42,9 +42,9 @@ module MessageStore
       id_list.concat(Array(id))
       id_list.concat(Array(ids))
 
-      id_part = id_list.join(compound_id_separator)
-
-      if not id_part.empty?
+      id_part = nil
+      if not id_list.empty?
+        id_part = ID.compound_id(id_list)
         stream_name = "#{stream_name}#{id_separator}#{id_part}"
       end
 
@@ -64,7 +64,7 @@ module MessageStore
 
       return [] if ids.nil?
 
-      ids.split(compound_id_separator)
+      ID.parse(ids)
     end
 
     def self.get_cardinal_id(stream_name)
@@ -72,7 +72,7 @@ module MessageStore
 
       return nil if id.nil?
 
-      id.split(compound_id_separator).first
+      ID.get_cardinal_id(id)
     end
 
     def self.get_category(stream_name)
