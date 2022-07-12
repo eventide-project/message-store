@@ -3,6 +3,7 @@ require_relative '../automated_init'
 context "Get Last" do
   context "Call" do
     stream_name = Controls::StreamName.example
+    type = Controls::MessageData.type
 
     context "Not Specialized" do
       cls = Class.new do
@@ -22,12 +23,12 @@ context "Get Last" do
       cls = Class.new do
         include MessageStore::Get::Stream::Last
 
-        define_method(:call) do |_stream_name|
+        define_method(:call) do |_stream_name, type: nil|
           specialized_method_executed = true if _stream_name == stream_name
         end
       end
 
-      cls.(stream_name)
+      cls.(stream_name, type: type)
 
       test "Executes specialized method" do
         assert(specialized_method_executed)
