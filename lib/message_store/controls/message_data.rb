@@ -9,6 +9,10 @@ module MessageStore
         'SomeType'
       end
 
+      def self.other_type
+        'SomeOtherType'
+      end
+
       def self.data
         { :attribute => RandomValue.example }
       end
