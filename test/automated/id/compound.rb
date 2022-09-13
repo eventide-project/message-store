@@ -1,15 +1,15 @@
 require_relative '../automated_init'
 
 context "ID" do
-  context "Compose" do
+  context "Compound" do
     context "Singular ID" do
       context "Not Nil" do
         id = 'some_id'
 
-        composed_id = MessageStore::ID.id(id)
+        compound_id = MessageStore::ID.id(id)
 
-        test "Composed ID is the singular ID" do
-          assert(composed_id == id)
+        test "Compound ID is the singular ID" do
+          assert(compound_id == id)
         end
       end
 
@@ -28,10 +28,10 @@ context "ID" do
       context "Not Empty" do
         id = ['some_id', 'some_other_id']
 
-        composed_id = MessageStore::ID.id(id)
+        compound_id = MessageStore::ID.id(id)
 
-        test "Composed ID is the concatenation of the list of IDs delimited by the '+'' sign" do
-          assert(composed_id == 'some_id+some_other_id')
+        test "Compound ID is the concatenation of the list of IDs delimited by the '+'' sign" do
+          assert(compound_id == 'some_id+some_other_id')
         end
       end
 
