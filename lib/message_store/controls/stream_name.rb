@@ -22,13 +22,14 @@ module MessageStore
 
         stream_name = category
         stream_name = "#{stream_name}:#{type_list}" unless type_list.nil?
-        stream_name = "#{stream_name}-#{id}" unless id.nil?
+
+        if not id.nil?
+          composed_id = MessageStore::ID.id(id)
+          stream_name = "#{stream_name}-#{composed_id}"
+        end
 
         stream_name
       end
     end
   end
 end
-
-
-
