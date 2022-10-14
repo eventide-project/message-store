@@ -53,9 +53,9 @@ module MessageStore
         end
 
         module Call
-          def call(stream_name, type: nil, session: nil)
+          def call(stream_name, type=nil, session: nil)
             instance = build(session: session)
-            instance.(stream_name, type: type)
+            instance.(stream_name, type)
           end
         end
       end

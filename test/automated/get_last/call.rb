@@ -28,7 +28,7 @@ context "Get Last" do
         end
       end
 
-      cls.(stream_name, type: type)
+      cls.(stream_name, type)
 
       test "Executes specialized method" do
         assert(specialized_method_executed)
