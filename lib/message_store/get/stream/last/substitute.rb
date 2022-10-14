@@ -10,7 +10,7 @@ module MessageStore
           class GetLast
             include Get::Stream::Last
 
-            def call(stream_name, type: nil)
+            def call(stream_name, type=nil)
               streams[stream_name]
             end
 

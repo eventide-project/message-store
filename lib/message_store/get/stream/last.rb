@@ -22,7 +22,7 @@ module MessageStore
         end
 
         module InstanceActuator
-          def call(stream_name, type: nil)
+          def call(stream_name, type=nil)
             logger.trace(tag: :get) { "Getting last message data (Stream Name: #{stream_name})" }
 
             message_data = super

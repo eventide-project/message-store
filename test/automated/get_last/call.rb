@@ -23,7 +23,7 @@ context "Get Last" do
       cls = Class.new do
         include MessageStore::Get::Stream::Last
 
-        define_method(:call) do |_stream_name, type: nil|
+        define_method(:call) do |_stream_name, type=nil|
           specialized_method_executed = true if _stream_name == stream_name
         end
       end
