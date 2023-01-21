@@ -1,6 +1,6 @@
-# message_store
+# message_store-postgres
 
-Common primitives for platform-specific message store implementations.
+Message store implementation for PostgreSQL.
 
 ## Documentation
 
@@ -8,4 +8,4 @@ See the [Eventide documentation site](http://docs.eventide-project.org) for more
 
 ## License
 
-The `event_stream-postgres` library is released under the [MIT License](https://github.com/eventide-project/event-stream-postgres/blob/master/MIT-License.txt).
+The `message_store-postgres` library is released under the [MIT License](https://github.com/eventide-project/message-store-postgres/blob/master/MIT-License.txt).

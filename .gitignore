@@ -3,8 +3,9 @@ Gemfile.lock
 *.log
 *.gem
 gems
-
-lib/message_store/event_store
-lib/message_store/event_store.rb
-lib/message_store/postgres
-lib/message_store/postgres.rb
+*scratch*
+*notes*
+loader.rb
+/test/package/installed
+/test/benchmark/tmp/**/*
+_sketch.rb
