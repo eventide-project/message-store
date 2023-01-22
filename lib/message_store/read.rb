@@ -1,48 +1,36 @@
 module MessageStore
-  module Read
-    def self.included(cls)
-      cls.class_exec do
-        include Dependency
-        include Initializer
-        include Virtual
-        include Log::Dependency
-
-        extend Build
-        extend Call
-        extend Configure
-
-        dependency :iterator, Iterator
-
-        initializer :stream_name, :position, :batch_size
-
-        abstract :configure
-      end
-    end
+  class Read
+    include Dependency
+    include Initializer
+    include Virtual
+    include Log::Dependency
 
     Error = Class.new(RuntimeError)
 
-    module Build
-      def build(stream_name, position: nil, batch_size: nil, session: nil, **arguments)
-        new(stream_name, position, batch_size).tap do |instance|
-          Iterator.configure(instance, position)
-          instance.configure(session: session, **arguments)
-        end
-      end
+    dependency :iterator, Iterator
+
+    initializer :stream_name, :position, :batch_size
+
+    def self.build(stream_name, position: nil, batch_size: nil, session: nil, condition: nil, **arguments)
+      instance = new(stream_name, position, batch_size)
+
+      Iterator.configure(instance, position)
+
+      iterator = instance.iterator
+      Get.configure(iterator, stream_name, batch_size: batch_size, condition: condition, session: session)
+
+      instance
     end
 
-    module Call
-      def call(stream_name, position: nil, batch_size: nil, session: nil, **arguments, &action)
-        instance = build(stream_name, position: position, batch_size: batch_size, session: session, **arguments)
-        instance.(&action)
-      end
+    def self.call(stream_name, position: nil, batch_size: nil, session: nil, **arguments, &action)
+      instance = build(stream_name, position: position, batch_size: batch_size, session: session, **arguments)
+      instance.(&action)
     end
 
-    module Configure
-      def configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, session: nil, **arguments)
-        attr_name ||= :read
-        instance = build(stream_name, position: position, batch_size: batch_size, session: session, **arguments)
-        receiver.public_send "#{attr_name}=", instance
-      end
+    def self.configure(receiver, stream_name, attr_name: nil, position: nil, batch_size: nil, session: nil, **arguments)
+      attr_name ||= :read
+      instance = build(stream_name, position: position, batch_size: batch_size, session: session, **arguments)
+      receiver.public_send "#{attr_name}=", instance
     end
 
     def call(&action)
@@ -76,6 +64,12 @@ module MessageStore
       end
 
       logger.debug(tag: :read) { "Enumerated (Stream Name: #{stream_name})" }
+    end
+
+    module Defaults
+      def self.batch_size
+        Get::Defaults.batch_size
+      end
     end
   end
 end

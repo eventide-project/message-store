@@ -7,7 +7,7 @@ context "Get Last" do
     control_message_data = Controls::MessageData::Read.example
 
     context "Message Is Set" do
-      substitute = SubstAttr::Substitute.build(Controls::GetLast::Example)
+      substitute = SubstAttr::Substitute.build(Get::Stream::Last)
 
       substitute.set(stream_name, control_message_data)
 
@@ -19,7 +19,7 @@ context "Get Last" do
     end
 
     context "Message Not Set" do
-      substitute = SubstAttr::Substitute.build(Controls::GetLast::Example)
+      substitute = SubstAttr::Substitute.build(Get::Stream::Last)
 
       message_data = substitute.(stream_name)
 
