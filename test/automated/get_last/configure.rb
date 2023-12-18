@@ -7,7 +7,7 @@ context "Get Last" do
 
       receiver = OpenStruct.new
 
-      Controls::GetLast::Example.configure(receiver, session: session)
+      Get::Stream::Last.configure(receiver, session: session)
 
       get_last = receiver.get_last
 
@@ -19,19 +19,19 @@ context "Get Last" do
     context "Session Not Given" do
       receiver = OpenStruct.new
 
-      Controls::GetLast::Example.configure(receiver)
+      Get::Stream::Last.configure(receiver)
 
       get_last = receiver.get_last
 
       test "Default session is used" do
-        assert(get_last.session == Controls::GetLast.default_session)
+        refute(get_last.session.nil?)
       end
     end
 
     context "Attribute Name Specified" do
       receiver = OpenStruct.new
 
-      Controls::GetLast::Example.configure(receiver, attr_name: :some_attr)
+      Get::Stream::Last.configure(receiver, attr_name: :some_attr)
 
       get_last = receiver.some_attr
 

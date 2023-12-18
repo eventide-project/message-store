@@ -1,3 +1,4 @@
+## Add tests, this did not have tests in message-store either - Aaron, Sun Jan 15 2023
 module MessageStore
   module Get
     class Substitute

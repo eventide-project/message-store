@@ -1,15 +1,13 @@
 module MessageStore
   module Get
-    module Stream
-      module Last
+    class Stream
+      class Last
         module Substitute
           def self.build
             GetLast.new
           end
 
-          class GetLast
-            include Get::Stream::Last
-
+          class GetLast < Stream::Last
             def call(stream_name, type=nil)
               streams[stream_name]
             end

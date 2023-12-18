@@ -11,7 +11,10 @@ context "Write" do
 
   batch = [write_message_1, write_message_2, write_message_3]
 
-  Controls::Write::Example.(batch, stream_name)
+  ## Review - Aaron, Sat Jan 21 2023
+  write = Write.new
+  write.put = Put.new
+  write.(batch, stream_name)
 
   context "Missing IDs Are Assigned" do
     test "Message 1" do

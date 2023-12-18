@@ -1,21 +1,11 @@
 ENV['CONSOLE_DEVICE'] ||= 'stdout'
-ENV['LOG_COLOR'] ||= 'on'
-
-if ENV['LOG_LEVEL']
-  ENV['LOGGER'] ||= 'on'
-else
-  ENV['LOG_LEVEL'] ||= 'trace'
-end
-
-ENV['LOGGER'] ||= 'off'
-ENV['LOG_OPTIONAL'] ||= 'on'
+ENV['LOG_LEVEL'] ||= '_min'
 
 puts RUBY_DESCRIPTION
 
-require_relative '../init.rb'
+require_relative '../init'
+require 'message_store/controls'
 
 require 'test_bench'; TestBench.activate
-
-require 'message_store/controls'
 
 include MessageStore
