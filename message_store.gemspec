@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.required_ruby_version = '>= 2.4.0'
 
+  s.add_runtime_dependency 'evt-settings'
   s.add_runtime_dependency 'evt-casing'
   s.add_runtime_dependency 'evt-schema'
   s.add_runtime_dependency 'evt-initializer'

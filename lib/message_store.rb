@@ -9,6 +9,10 @@ require 'transform'
 require 'virtual'
 require 'async_invocation'
 
+require 'settings'
+
+require 'message_store/settings'
+
 require 'message_store/expected_version'
 require 'message_store/no_stream'
 require 'message_store/id'
