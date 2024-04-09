@@ -6,7 +6,7 @@ require 'identifier/uuid'
 require 'schema'
 require 'initializer'
 require 'transform'
-require 'virtual'
+require 'template_method'
 require 'async_invocation'
 
 require 'message_store/expected_version'

@@ -10,8 +10,8 @@ context "Get Last" do
         include MessageStore::Get::Stream::Last
       end
 
-      test "Raises virtual method error" do
-        assert_raises(Virtual::PureMethod::Error) do
+      test "Raises template method error" do
+        assert_raises(TemplateMethod::Error) do
           cls.(stream_name)
         end
       end

@@ -3,7 +3,7 @@ module MessageStore
     class Iterator
       include Dependency
       include Initializer
-      include Virtual
+      include TemplateMethod
       include Log::Dependency
 
       dependency :get, Get
