@@ -5,7 +5,7 @@ module MessageStore
         def self.included(cls)
           cls.class_exec do
             include Dependency
-            include Virtual
+            include TemplateMethod
             include Log::Dependency
 
             extend Build
@@ -14,8 +14,8 @@ module MessageStore
 
             prepend InstanceActuator
 
-            virtual :configure
-            abstract :call
+            template_method :configure
+            template_method! :call
 
             const_set :Substitute, Substitute
           end

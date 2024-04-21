@@ -4,7 +4,7 @@ module MessageStore
       cls.class_exec do
         include Dependency
         include Initializer
-        include Virtual
+        include TemplateMethod
         include Log::Dependency
 
         extend Build
@@ -15,7 +15,7 @@ module MessageStore
 
         initializer :stream_name, :position, :batch_size
 
-        abstract :configure
+        template_method! :configure
       end
     end
 

@@ -2,7 +2,7 @@ module MessageStore
   module Get
     class Substitute
       include Initializer
-      include Virtual
+      include TemplateMethod
 
       include Get
 

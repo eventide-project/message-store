@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'evt-initializer'
   s.add_runtime_dependency 'evt-identifier-uuid'
   s.add_runtime_dependency 'evt-transform'
-  s.add_runtime_dependency 'evt-virtual'
+  s.add_runtime_dependency 'evt-template_method'
   s.add_runtime_dependency 'evt-async_invocation'
 
   s.add_development_dependency 'test_bench'

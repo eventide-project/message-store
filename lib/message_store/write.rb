@@ -3,7 +3,7 @@ module MessageStore
     def self.included(cls)
       cls.class_exec do
         include Dependency
-        include Virtual
+        include TemplateMethod
         include Log::Dependency
 
         extend Build
@@ -12,8 +12,8 @@ module MessageStore
 
         dependency :identifier, Identifier::UUID::Random
 
-        abstract :configure
-        abstract :write
+        template_method! :configure
+        template_method! :write
       end
     end
 

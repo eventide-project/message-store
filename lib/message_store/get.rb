@@ -4,13 +4,13 @@ module MessageStore
       cls.class_exec do
         include Dependency
         include Initializer
-        include Virtual
+        include TemplateMethod
         include Log::Dependency
 
-        abstract :call
-        abstract :stream_name
-        abstract :batch_size
-        abstract :last_position
+        template_method! :call
+        template_method! :stream_name
+        template_method! :batch_size
+        template_method! :last_position
       end
     end
   end
